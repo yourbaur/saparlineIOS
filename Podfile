@@ -13,7 +13,7 @@ target 'SaparLine' do
   pod 'Kingfisher'
   pod 'BEMCheckBox'
   
-  pod 'LGSideMenuController'
+  pod 'LGSideMenuController', '~> 2.1.1'
   pod 'RDGliderViewController'
   pod 'FSCalendar'
   pod 'GoogleMaps'
