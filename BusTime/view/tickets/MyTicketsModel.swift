@@ -10,7 +10,7 @@ import Foundation
 
 struct MyTicketsModel: Codable {
     var id: Int?
-    var number: [Int]?
+    var number: Int?
     var price: Int?
     var status: String?
     var departure_time: String?
@@ -22,8 +22,11 @@ struct MyTicketsModel: Codable {
     var car_state_number: String?
     var car_type: String?
     var car_type_count_places: Int?
+    var first_name: String?
+    var phone: String?
+    var iin: String?
     
-    mutating func configure(model:MyTicketsModel) {
+    mutating func configure(model: MyTicketsModel) {
         self.id = model.id
         self.price = model.price
         self.status = model.status
@@ -36,5 +39,8 @@ struct MyTicketsModel: Codable {
         self.car_state_number = model.car_state_number
         self.car_type = model.car_type
         self.car_type_count_places = model.car_type_count_places
+        self.first_name = model.first_name
+        self.phone = model.phone
+        self.iin = model.iin
     }
 }

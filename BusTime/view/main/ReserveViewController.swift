@@ -16,7 +16,10 @@ class ReserveViewController: ScrollViewController {
     var removedNumbersInCollectionView6 = [0,1,2,3,5,6,7,8,9,10,11,12,13,15,17,18,19,20,21,22,23,24,25]
     var removedNumbersInCollectionView7 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24,25]
     var removedNumbersInCollectionView4 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24]
+    private var showHigherSeatsIn36 = [0, 1, 13, 17, 19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 50, 52, 56, 58]
+    private var showLowerSeatsIn36 = [6, 7, 12, 16, 18, 22, 24, 28, 30, 34, 36, 40, 42, 46, 49, 51, 55, 57]
 
+    private var passengersInfos = [PassengerInfoModel]()
     var skipCount = 0
     var placesCount = 0
     var kaspiNumber = ""
@@ -87,6 +90,39 @@ class ReserveViewController: ScrollViewController {
         label.font = UIFont.init(name: Font.mullerRegular, size: 16)
         return label
     }()
+    
+    private lazy var higherSeatsLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = maincolor.blue
+        label.text = "Верхние места"
+        label.font = UIFont.init(name: Font.mullerBold, size: 16)
+        return label
+    }()
+    
+    private lazy var higherSeatsSwitch: UISwitch = {
+        let higherSwitch = UISwitch()
+        higherSwitch.isOn = true
+        higherSwitch.onTintColor = maincolor.blue
+        higherSwitch.addTarget(self, action: #selector(higherSeatsSwitchIsOn), for: .valueChanged)
+        return higherSwitch
+    }()
+    
+    private lazy var lowerSeatsLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = maincolor.blue
+        label.text = "Нижние места"
+        label.font = UIFont.init(name: Font.mullerBold, size: 16)
+        return label
+    }()
+    
+    private lazy var lowerSeatsSwitch: UISwitch = {
+        let lower = UISwitch()
+        lower.isOn = true
+        lower.onTintColor = maincolor.blue
+        lower.addTarget(self, action: #selector(lowerSeatsSwitchIsOn), for: .valueChanged)
+        return lower
+    }()
+    
     lazy var collectionView: DynamicHeightCollectionView = {
         let collectionView = DynamicHeightCollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -97,6 +133,7 @@ class ReserveViewController: ScrollViewController {
         return collectionView
     }()
     lazy var placeView = PlaceView()
+    lazy var bedPlaceView = BedPlaceView()
     lazy var price: UILabel = {
         let label = UILabel()
         label.text = localized(text: "amount")
@@ -421,8 +458,10 @@ class ReserveViewController: ScrollViewController {
         else {
             scrollView.addSubviews([topLabel, arrowUp, arrowUpLabel,
                                     arrowDown, arrowDownLabel,
-                                    scheme53,exitView,collectionView,exitView2,betweenView,
-                                    priceTitle, price, placeView,safetyButton, policyButton, reviewsButton])
+                                    higherSeatsLabel, higherSeatsSwitch,
+                                    lowerSeatsLabel, lowerSeatsSwitch,
+                                    scheme53,exitView,collectionView,exitView2, betweenView,
+                                    priceTitle, price, bedPlaceView, safetyButton, policyButton, reviewsButton])
         
             topLabel.snp.makeConstraints { make in
                 make.top.equalToSuperview().offset(16)
@@ -444,6 +483,27 @@ class ReserveViewController: ScrollViewController {
                 make.centerY.equalTo(arrowDown)
                 make.left.equalTo(arrowDown.snp.right).offset(8)
             }
+            
+            higherSeatsLabel.snp.makeConstraints {
+                $0.top.equalTo(arrowUpLabel.snp.bottom).offset(12)
+                $0.left.equalTo(16)
+            }
+            
+            higherSeatsSwitch.snp.makeConstraints {
+                $0.centerY.equalTo(higherSeatsLabel.snp.centerY)
+                $0.right.equalTo(-24)
+            }
+            
+            lowerSeatsLabel.snp.makeConstraints {
+                $0.centerY.equalTo(lowerSeatsSwitch.snp.centerY)
+                $0.left.equalTo(16)
+            }
+            
+            lowerSeatsSwitch.snp.makeConstraints {
+                $0.top.equalTo(higherSeatsSwitch.snp.bottom).offset(8)
+                $0.right.equalTo(-24)
+            }
+            
             scheme53.snp.makeConstraints { (make) in
                 make.centerX.equalTo(collectionView)
                 make.width.equalToSuperview()
@@ -455,12 +515,12 @@ class ReserveViewController: ScrollViewController {
             
             descriptionView.isHidden = true
             exitView.snp.makeConstraints { (make) in
-                make.top.equalToSuperview().offset(160)
+                make.top.equalToSuperview().offset(230)
                 make.width.equalTo(150)
                 make.right.equalToSuperview()
             }
             collectionView.snp.makeConstraints { (make) in
-                make.top.equalToSuperview().offset(160)
+                make.top.equalToSuperview().offset(220)
                 switch UIDevice.modelName {
                 case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus","iPhone 13", "iPhone 13 Pro Max", "iPhone 13 Pro":
                     make.left.equalToSuperview().offset(44)
@@ -477,7 +537,7 @@ class ReserveViewController: ScrollViewController {
                 make.centerY.equalTo(collectionView.snp.centerY).offset(70)
             }
             betweenView.snp.makeConstraints { (make) in
-                make.top.equalToSuperview().offset(160)
+                make.top.equalToSuperview().offset(220)
                 make.centerX.equalToSuperview()
                 make.width.equalTo(80)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-250)
@@ -485,12 +545,12 @@ class ReserveViewController: ScrollViewController {
         }
         
         
-        placeView.snp.makeConstraints { (make) in
+        bedPlaceView.snp.makeConstraints { (make) in
             make.top.equalTo(safetyButton.snp.bottom).offset(16)
             make.width.equalToSuperview()
         }
         price.snp.makeConstraints { (make) in
-            make.top.equalTo(placeView.snp.bottom).offset(40)
+            make.top.equalTo(bedPlaceView.snp.bottom).offset(40)
             make.left.equalToSuperview().offset(16)
             
         }
@@ -622,6 +682,38 @@ class ReserveViewController: ScrollViewController {
         let vc = ReviewListViewController(carId: self.carId!, comfortList: self.comfortList!, type:button.tag, carNumber: arrayTravelShow?.travel?.car.state_number ?? "")
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    @objc private func higherSeatsSwitchIsOn(_ higherSwitch: UISwitch) {
+        if higherSwitch.isOn {
+            lowerSeatsSwitch.isOn = false
+            NotificationCenter.default.post(name: NSNotification.Name("higherOn"),
+                                            object: nil,
+                                            userInfo: nil)
+        } else {
+            lowerSeatsSwitch.isOn = true
+            NotificationCenter.default.post(name: NSNotification.Name("higherOff"),
+                                            object: nil,
+                                            userInfo: nil)
+        }
+    }
+    
+    @objc private func lowerSeatsSwitchIsOn(_ lowerSwitch: UISwitch) {
+        if lowerSwitch.isOn {
+            higherSeatsSwitch.isOn = false
+            NotificationCenter.default.post(name: NSNotification.Name("lowerOn"),
+                                            object: nil,
+                                            userInfo: nil)
+        } else {
+            higherSeatsSwitch.isOn = true
+            NotificationCenter.default.post(name: NSNotification.Name("lowerOff"),
+                                            object: nil,
+                                            userInfo: nil)
+        }
+    }
+    
+    deinit {
+        print("/// deinit")
+    }
 }
 
 // MARK: - CollectionView delegate
@@ -651,13 +743,54 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SitCollectionViewCell.cellIdentifier, for: indexPath) as! SitCollectionViewCell
         // place
-        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+        if car_type_id == 2 {
+            cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+        } else {
+            cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+        }
+        cell.placeNumber.text = "\(indexPath.row)"
         if shouldBeRemoved(index: indexPath.item) {
             cell.isHidden = true
         }
         let placeNum: Int = indexPath.item + 1 - skipCount
+        print("/// placeNum", placeNum)
         cell.placeNumBack = placeNum
         cell.placeNumber.text = "\(placeNum)"
+        
+        if car_type_id == 2 {
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("higherOn"), object: nil, queue: nil) { res in
+                if self.showLowerSeatsIn36.contains(indexPath.row) {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                } else {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                }
+            }
+
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("lowerOn"), object: nil, queue: nil) { res in
+                if self.showHigherSeatsIn36.contains(indexPath.row) {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                } else {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                }
+            }
+
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("higherOff"), object: nil, queue: nil) { res in
+                if self.showHigherSeatsIn36.contains(indexPath.row) {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                } else {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                }
+            }
+
+            NotificationCenter.default.addObserver(forName: NSNotification.Name("lowerOff"), object: nil, queue: nil) { res in
+
+                if self.showLowerSeatsIn36.contains(indexPath.row) {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                } else {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                }
+            }
+        }
         
         if car_type_id == 1 {
             if let index = swap1to53.firstIndex(of: placeNum) {
@@ -700,26 +833,26 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
         }
         // free, take, in_process
-        if arrayTravelShow != nil {
-            for i in arrayTravelShow!.places! {
-                if i.number == cell.placeNumBack {
-                    if i.status == "free" {
-                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
-                    } else if i.status == "take" {
-                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-12")
-                    } else if i.status == "in_process" {
-                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-15")
-                    }
-                }
-            }
-        }
-        if places.count != 0 {
-            for place in places {
-                if place == cell.placeNumBack {
-                    cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")
-                }
-            }
-        }
+//        if arrayTravelShow != nil {
+//            for i in arrayTravelShow!.places! {
+//                if i.number == cell.placeNumBack {
+//                    if i.status == "free" {
+//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+//                    } else if i.status == "take" {
+//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-12")
+//                    } else if i.status == "in_process" {
+//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-15")
+//                    }
+//                }
+//            }
+//        }
+//        if places.count != 0 {
+//            for place in places {
+//                if place == cell.placeNumBack {
+//                    cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")
+//                }
+//            }
+//        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -744,6 +877,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
             } else if !places.contains(cell.placeNumBack) && places.count<4{
                 for i in 0...(arrayTravelShow?.places!.count)!-1 {
                     if cell.placeNumBack == arrayTravelShow?.places![i].number {
+                        
                         price_place += (arrayTravelShow?.places![i].price)!
                         break
                     }
@@ -754,15 +888,28 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
             else {
                 if cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") && cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
                     cell.sitImageView.image == #imageLiteral(resourceName: "Group-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "Group-16"))
-                    
+
                 }
                 showErrorMessage(messageType: .none, "Вы не можете выбрать не больше 4 мест")
             }
         }
+        
+        if cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
+            let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0, placeString: placesStr)
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.modalTransitionStyle = .crossDissolve
+            vc.delegate = self
+            present(vc, animated: true, completion: nil)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath)
     -> CGSize {
-        CGSize(width: 42, height: 42)
+        if car_type_id == 2 {
+            return CGSize(width: 42, height: 64)
+        } else {
+            return CGSize(width: 42, height: 42)
+        }
+        
     }
 }
 
@@ -789,10 +936,18 @@ extension ReserveViewController {
     }
     private func reserve() {
         let vc = TripDetailViewController()
-        vc.configure(model: (self.arrayTravelShow?.travel)!, travel_id: self.travel_id!, places: self.places, placesStr: self.placesStr, sum: self.priceTitle.text!)
+        vc.configure(model: (self.arrayTravelShow?.travel)!,
+                     travel_id: self.travel_id!,
+                     places: self.places,
+                     placesStr: self.placesStr,
+                     sum: self.priceTitle.text!,
+                     passengerInfos: self.passengersInfos)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
+}
 
+extension ReserveViewController: PassengerInformationDelegate {
+    func didEnterInformation(info: PassengerInfoModel) {
+        self.passengersInfos.append(info)
+    }
 }

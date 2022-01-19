@@ -225,7 +225,8 @@ class SearchResultViewController: UIViewController {
         
         let vc = ReserveViewController(travel_id: (arrayTravelList?.data![index].id)!,
                                        price: (arrayTravelList?.data![index].max_price)!,
-                                       car_type_id: (arrayTravelList?.data![index].car.car_type_id)!, carId:(arrayTravelList?.data![index].car.id )!,
+                                       car_type_id: (arrayTravelList?.data![index].car.car_type_id)!,
+                                       carId:(arrayTravelList?.data![index].car.id )!,
                                        comfortList: comfortList)
         navigationController?.pushViewController(vc, animated: true)
     }

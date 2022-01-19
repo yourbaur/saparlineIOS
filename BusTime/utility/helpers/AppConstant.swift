@@ -17,10 +17,11 @@ enum api {
     
     // MARK: - Пассажир
     static let travelListPassenger = "travel/list"               //список транспортов
-    static let myTicketsPassenger  = "my-tickets-groupped"                //мои билеты
+    static let myTicketsPassenger  = "my-tickets-new"                //мои билеты
     static let placeCancel         = "travel/place/cancel"       //возварт билета
     static let orderHistories      = "order-histories"           //список поездок
     static let placeReserve        = "travel/place/reservation"  //бронь места
+    static let passengerInformation = "travel/place/reservation2" //информация о пассажире
     static let beDriver            = "profile/role/driver"       //стать водителем
     
     // MARK: - Водитель

@@ -21,11 +21,13 @@ class TripDetailViewController: ScrollViewController {
     var kaspiNumber = ""
     var carId: Int = 0
     var userId:Int = 0
+    private var models: [PassengerInfoModel]? = []
     // MARK: - Properties
     lazy var profileView = TripProfileView()
     lazy var tripwayView = TripNewWayView()
-    lazy var tripPlaceView = TripNewPlaceView()
+    lazy var tripPlaceView = PassengerInformationView()
     private var typeId: Int = 0
+    private var carNumber: String?
     lazy var line = UIView()
     
     lazy var timerView: UIView = {
@@ -35,7 +37,6 @@ class TripDetailViewController: ScrollViewController {
         view.layer.borderWidth = 2
         return view
     }()
-    
   
     lazy var attentionTitle: UILabel = {
         let label = UILabel()
@@ -53,6 +54,18 @@ class TripDetailViewController: ScrollViewController {
         label.font = UIFont.init(name: Font.mullerBold, size: 25)
         return label
     }()
+    
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(PassengerInfoCell.self, forCellReuseIdentifier: PassengerInfoCell.identifier)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
+        return tableView
+    }()
+    
     lazy var tripPayView = TripNewPayView()
     lazy var price: UILabel = {
         let label = UILabel()
@@ -131,7 +144,8 @@ class TripDetailViewController: ScrollViewController {
         scrollView.backgroundColor = .white
         line.backgroundColor = .gray
         
-        scrollView.addSubviews([profileView,tripwayView,tripPlaceView,line,tripPayView,reservePlaceBtn, timerView])
+        scrollView.addSubviews([profileView,tripwayView,tableView,line,tripPayView,reservePlaceBtn, timerView])
+
         profileView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(20)
             make.width.equalToSuperview()
@@ -141,13 +155,17 @@ class TripDetailViewController: ScrollViewController {
             make.width.equalToSuperview()
             make.height.equalTo(120)
         }
-        tripPlaceView.snp.makeConstraints { (make) in
+        tableView.snp.makeConstraints { (make) in
             make.top.equalTo(tripwayView.snp.bottom).offset(16)
             make.width.equalToSuperview()
-            make.height.equalTo(60)
+            make.height.equalTo(140 * self.places.count)
+        }
+        
+        tripPlaceView.snp.makeConstraints {
+            $0.height.equalTo(130)
         }
         line.snp.makeConstraints { (make) in
-            make.top.equalTo(tripPlaceView.snp.bottom).offset(16)
+            make.top.equalTo(tableView.snp.bottom).offset(16)
             make.width.equalToSuperview()
             make.height.equalTo(1)
         }
@@ -187,7 +205,12 @@ class TripDetailViewController: ScrollViewController {
         }
     }
     
-    func configure(model: TravelList, travel_id: Int, places: [Int], placesStr: [String], sum: String) -> Void {
+    func configure(model: TravelList,
+                   travel_id: Int,
+                   places: [Int],
+                   placesStr: [String],
+                   sum: String,
+                   passengerInfos: [PassengerInfoModel]) -> Void {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:00"
         var date = formatter.date(from: model.departure_time)
@@ -211,20 +234,12 @@ class TripDetailViewController: ScrollViewController {
             let hours = toTime - fromTime
             tripwayView.duration.text = "в пути \(hours.hour ?? 0) час"
         }
-        tripPlaceView.stateNumberTitle.text = model.car.state_number
-        tripPlaceView.idplaceTitle.text = ""
+        self.carNumber = model.car.state_number
         self.travel_id = travel_id
         self.places = places
         self.placesStr = placesStr
-        if placesStr.count > 0 {
-            for item in placesStr {
-                if tripPlaceView.idplaceTitle.text == "" {
-                    tripPlaceView.idplaceTitle.text = "\(item)"
-                } else {
-                    tripPlaceView.idplaceTitle.text! += ", \(item)"
-                }
-            }
-        }
+        self.models = passengerInfos
+        
         price.text = sum
         self.typeId = model.car.car_type_id
         self.carId = model.car.id
@@ -246,7 +261,7 @@ class TripDetailViewController: ScrollViewController {
     
     // MARK: - Actions
     @objc func tapReserve() -> Void {
-            reserveRequest()
+        reservePassengersInfos()
         
     }
     @objc func processTimer() {
@@ -292,10 +307,10 @@ extension TripDetailViewController {
     private func reserveRequest() -> Void {
         showHUD()
         // PREPARE parameters
-        let parameter: [String: Any] = ["travel_id": travel_id!,
-                                        "places": places]
+//        let parameter: [String: Any] = ["travel_id": travel_id!,
+//                                        "places": places]
         // REQUEST
-        ParseManager.shared.postRequest(url: api.placeReserve, parameters: parameter) { (result: CheckRequest?, error) in
+//        ParseManager.shared.postRequest(url: api.placeReserve, parameters: parameter) { (result: CheckRequest?, error) in
             self.dismissHUD()
 //            if let error = error {
 //                print(error)
@@ -304,21 +319,106 @@ extension TripDetailViewController {
 //            }
             if self.typeId == 3 || self.typeId == 5 || self.typeId == 6 {
                 self.phoneNumber.makeCall()
-                self.call(orderId: result?.orderId ?? 0)
+//                self.call(orderId: result?.orderId ?? 0)
                 
             }
             else{
             self.openWhatsApp()
                 AppCenter.shared.startCustomer()}
+//        }
+    }
+    
+    private func reservePassengersInfos() {
+        guard let passengers = models else {
+            return
+        }
+        var param: [String: Any] = ["user_id": UserManager.shared.getCurrentUser()!.user!.id,
+                                    "travel_id": self.travel_id ?? 0]
+        var phone = ""
+        var temp = [String: Any]()
+        var temp2 = [String: Any]()
+        var temp3 = [String: Any]()
+        for (id, passenger) in passengers.enumerated() {
+            phone = passenger.phone?.replacingOccurrences(of: " ", with: "") ?? ""
+            if passengers.count == 1 {
+                param["places"] = [["first_name": passenger.name ?? "",
+                                       "phone": phone.dropFirst(),
+                                       "iin": passenger.iin ?? "",
+                                       "place_number": "\(places[0])"]]
+            } else if passengers.count == 2 {
+                if id == 0 {
+                    temp = ["first_name": passenger.name ?? "",
+                            "phone": phone.dropFirst(),
+                            "iin": passenger.iin ?? "",
+                            "place_number": "\(places[0])"]
+                } else {
+                    param["places"] = [temp,
+                                       ["first_name": passenger.name ?? "",
+                                           "phone": phone.dropFirst(),
+                                          "iin": passenger.iin ?? "",
+                                          "place_number": "\(places[1])"]]
+                }
+            } else if passengers.count == 3 {
+                if id == 0 {
+                    temp = ["first_name": passenger.name ?? "",
+                                           "phone": phone.dropFirst(),
+                                          "iin": passenger.iin ?? "",
+                                          "place_number": "\(places[0])"]
+                } else if id == 1 {
+                    temp2 = ["first_name": passenger.name ?? "",
+                             "phone": phone.dropFirst(),
+                            "iin": passenger.iin ?? "",
+                            "place_number": "\(places[1])"]
+                } else {
+                    param["places"] = [temp,
+                                       temp2,
+                                       ["first_name": passenger.name ?? "",
+                                           "phone": phone.dropFirst(),
+                                          "iin": passenger.iin ?? "",
+                                          "place_number": "\(places[2])"]]
+                }
+            } else {
+                if id == 0 {
+                    temp = ["first_name": passenger.name ?? "",
+                                           "phone": phone.dropFirst(),
+                                          "iin": passenger.iin ?? "",
+                                          "place_number": "\(places[0])"]
+                } else if id == 1 {
+                    temp2 = ["first_name": passenger.name ?? "",
+                             "phone": phone.dropFirst(),
+                            "iin": passenger.iin ?? "",
+                            "place_number": "\(places[1])"]
+                } else if id == 2 {
+                    temp3 = ["first_name": passenger.name ?? "",
+                             "phone": phone.dropFirst(),
+                            "iin": passenger.iin ?? "",
+                            "place_number": "\(places[2])"]
+                } else {
+                    param["places"] = [temp,
+                                       temp2,
+                                       temp3,
+                                       ["first_name": passenger.name ?? "",
+                                           "phone": phone.dropFirst(),
+                                          "iin": passenger.iin ?? "",
+                                          "place_number": "\(places[3])"]]
+                }
+            }
+            if id == passengers.count - 1 {
+                ParseManager.shared.postRequest(url: api.passengerInformation,
+                                                parameters: param) { (result: CheckRequest?, error) in
+                    self.reserveRequest()
+                }
+            }
         }
     }
+    
     private func openWhatsApp() {
         let phoneNumber =  whatsappModel!.whatsapp!
         var placesString = ""
         for item in placesStr {
             placesString += "\(item),"
         }
-        let urlString = "Мой номер брони \(placesString) номер автобуса \(tripPlaceView.stateNumberTitle.text ?? "")"
+        let urlString = "Мой номер брони \(placesString) номер автобуса \(self.carNumber ?? "")"
         let urlStringEncoded = urlString.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
         guard let appURL = URL(string: "https://wa.me/\(phoneNumber)?text=\(urlStringEncoded)") else { print("WRONG whatsapp URL"); return; }
         if UIApplication.shared.canOpenURL(appURL) {
@@ -338,7 +438,25 @@ extension TripDetailViewController {
                 self.showErrorMessage(messageType: .none, error)
                 return
             }
-            
         }
+    }
+}
+
+extension TripDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        self.places.count   
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PassengerInfoCell.identifier,
+                                                       for: indexPath) as? PassengerInfoCell else {
+            return UITableViewCell()
+        }
+        cell.configureCell(model: models?[indexPath.row] ?? PassengerInfoModel(), item: indexPath.row)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        140
     }
 }

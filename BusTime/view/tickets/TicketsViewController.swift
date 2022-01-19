@@ -87,20 +87,15 @@ extension TicketsViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: TicketsTableViewCell.cellIdentifier(), for: indexPath) as! TicketsTableViewCell
         cell.selectionStyle = .none
         cell.ticketImage.isUserInteractionEnabled = true
-      
-//        cell.ticketImage.backgroundColor = #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 0.6226455479)
-        
         cell.returnButton.addTarget(self, action: #selector(tapReturn(button:)), for: .touchUpInside)
         cell.configure(model: array[indexPath.row]!)
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
       tableView.deselectRow(at: indexPath, animated: true)
-        //
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 260
-        //UITableView.automaticDimension
+        return 290
     }
 }
 
@@ -114,7 +109,7 @@ extension TicketsViewController {
                 self.showErrorMessage(messageType: .error, error)
                 return
             }
-            self.array = self.getArray(original: result!)
+            self.array = result ?? [MyTicketsModel]()
             self.isEmptyData()
             self.tableView.reloadData()
         }
@@ -131,50 +126,5 @@ extension TicketsViewController {
 //            }
             self.showSuccessMessage()
         }
-    }
-    
-    //function to get array maximum four places in one ticket
-    private func getArray(original: [MyTicketsModel]) -> [MyTicketsModel?] {
-        //open new generated array
-        var newArray: [MyTicketsModel] = []
-        for ticket in original {
-            let numberCount = ticket.number?.count ?? 1
-            //if count of places is less than 4, just append it
-            if (numberCount)<4 {
-                newArray.append(ticket)
-            }
-            //else generate by yourself
-            else {
-                var numberArray: [Int] = []
-                for number in 0..<numberCount {
-                    let placeNumber = (ticket.number ?? [Int]())[number]
-                    // if element is not first and divide by four append new element and clear numberArray
-                    if (number+1)%4 == 0 && number != 0 {
-                        var ticketModel = MyTicketsModel()
-                        ticketModel.configure(model: ticket)
-                        ticketModel.number = numberArray
-                        newArray.append(ticketModel)
-                        
-                        numberArray = []
-                        numberArray.append(placeNumber)
-                    }
-                    
-                    // if it is last element append last array of the number
-                    else if number + 1 == numberCount {
-                        var ticketModel = MyTicketsModel()
-                        ticketModel.configure(model: ticket)
-                        ticketModel.number = numberArray
-                        newArray.append(ticketModel)
-                    }
-                    
-                    // else just append number of place
-                    else {
-                        numberArray.append(placeNumber)
-                    }
-                }
-            }
-        }
-        //return new array
-        return newArray
     }
 }

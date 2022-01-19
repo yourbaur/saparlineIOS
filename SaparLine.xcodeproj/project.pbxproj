@@ -145,6 +145,9 @@
 		88E445C324F693E80019889D /* PlaceDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E445C224F693E80019889D /* PlaceDriverView.swift */; };
 		88E445C924F696CE0019889D /* HistoryOrdersDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88E445C824F696CE0019889D /* HistoryOrdersDriverViewController.swift */; };
 		88FCA93624F67F670051793C /* CustomDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88FCA93524F67F670051793C /* CustomDriverView.swift */; };
+		8F3AA7B42793185F003B70C5 /* EnterPassengerInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */; };
+		8F3AA7B62793FC8A003B70C5 /* PassengerInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */; };
+		8F3AA7B8279411A3003B70C5 /* PassengerInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */; };
 		B2C8ECE525FB7462005F4868 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECE425FB7462005F4868 /* Review.swift */; };
 		B2C8ECE925FB8A1F005F4868 /* ComfortTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECE825FB8A1F005F4868 /* ComfortTableViewCell.swift */; };
 		B2C8ECEC25FB8E6A005F4868 /* Comfort.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECEB25FB8E6A005F4868 /* Comfort.swift */; };
@@ -313,6 +316,9 @@
 		88E445C224F693E80019889D /* PlaceDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDriverView.swift; sourceTree = "<group>"; };
 		88E445C824F696CE0019889D /* HistoryOrdersDriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryOrdersDriverViewController.swift; sourceTree = "<group>"; };
 		88FCA93524F67F670051793C /* CustomDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDriverView.swift; sourceTree = "<group>"; };
+		8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPassengerInformationViewController.swift; sourceTree = "<group>"; };
+		8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInformationView.swift; sourceTree = "<group>"; };
+		8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInfoCell.swift; sourceTree = "<group>"; };
 		B2C8ECE425FB7462005F4868 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		B2C8ECE825FB8A1F005F4868 /* ComfortTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfortTableViewCell.swift; sourceTree = "<group>"; };
 		B2C8ECEB25FB8E6A005F4868 /* Comfort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comfort.swift; sourceTree = "<group>"; };
@@ -787,6 +793,7 @@
 				8838B0C124F3EAE800C3F327 /* GliderViewController.swift */,
 				8838B0DD24F402D200C3F327 /* FilterCalendarViewController.swift */,
 				B2FA6DAA25EB6F2900F88732 /* SortViewController.swift */,
+				8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */,
 			);
 			path = main;
 			sourceTree = "<group>";
@@ -815,6 +822,8 @@
 				B2FA6DA325E8FE6700F88732 /* SVVerticalButton.swift */,
 				B2FA6DA725EB6D0D00F88732 /* SortButtonView.swift */,
 				B2FA6DAE25EB701B00F88732 /* SortTableViewCell.swift */,
+				8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */,
+				8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1166,6 +1175,7 @@
 				53E4CA2E24E6DF8900513888 /* NumberTextField.swift in Sources */,
 				530A234724E6DAAE005E639C /* DefaultTextField.swift in Sources */,
 				53550C8F24E9866600F68A9D /* TicketsTableViewCell.swift in Sources */,
+				8F3AA7B42793185F003B70C5 /* EnterPassengerInformationViewController.swift in Sources */,
 				53E4CA2C24E6DC6300513888 /* LoginViewController.swift in Sources */,
 				886228DD24E7D946009DDB73 /* MainViewController.swift in Sources */,
 				881A6211253A9117008AFAF5 /* RegisterDriverViewController.swift in Sources */,
@@ -1227,6 +1237,8 @@
 				53550C8524E975E800F68A9D /* HistoryOrdersTableViewCell.swift in Sources */,
 				53B8DE9624E8555D0059B8E0 /* HistoryOrdersViewController.swift in Sources */,
 				880C2BC224F7F768001D96C8 /* ComingPriceView.swift in Sources */,
+				8F3AA7B62793FC8A003B70C5 /* PassengerInformationView.swift in Sources */,
+				8F3AA7B8279411A3003B70C5 /* PassengerInfoCell.swift in Sources */,
 				885ED3D72542EB3500DB3DDD /* FilterUniverTableViewCell.swift in Sources */,
 				B2C8ECEC25FB8E6A005F4868 /* Comfort.swift in Sources */,
 				8826444724EEB2A10000EA97 /* AboutAppViewController.swift in Sources */,

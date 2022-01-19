@@ -51,26 +51,26 @@ class ComingCityView: UIView {
         addSubviews([fromCityTitle,fromParkTitle,arrowIcon,toCityTitle,toParkTitle])
         fromCityTitle.snp.makeConstraints { (make) in
             make.top.equalToSuperview()
-            make.right.equalTo(arrowIcon.snp.left).offset(-16)
+            make.right.equalTo(arrowIcon.snp.left).offset(-10)
         }
         fromParkTitle.snp.makeConstraints { (make) in
             make.top.equalTo(fromCityTitle.snp.bottom).offset(4)
-            make.right.equalTo(arrowIcon.snp.left).offset(-16)
+            make.right.equalTo(arrowIcon.snp.left).offset(-10)
             make.bottom.equalToSuperview()
         }
         arrowIcon.snp.makeConstraints { (make) in
             //make.centerX.equalToSuperview()
             make.centerY.equalTo(fromCityTitle.snp.centerY)
-            make.centerX.equalToSuperview()
+            make.centerX.equalToSuperview().offset(20)
         }
         toCityTitle.snp.makeConstraints { (make) in
             //make.right.equalToSuperview()
             make.top.equalToSuperview()
-            make.left.equalTo(arrowIcon.snp.right).offset(16)
+            make.left.equalTo(arrowIcon.snp.right).offset(10)
         }
         toParkTitle.snp.makeConstraints { (make) in
             make.top.equalTo(toCityTitle.snp.bottom).offset(4)
-            make.left.equalTo(arrowIcon.snp.right).offset(16)
+            make.left.equalTo(arrowIcon.snp.right).offset(10)
         }
     }
 }

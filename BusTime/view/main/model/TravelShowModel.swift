@@ -44,3 +44,11 @@ struct DriverDetailModel: Codable {
     let phone: String
     let avatar: String?
 }
+
+struct PassengerInfoModel {
+    var seat: [String]?
+    var iin: String?
+    var name: String?
+    var phone: String?
+    var placeBack: [String]?
+}

@@ -24,7 +24,11 @@ class TicketsTableViewCell: UITableViewCell {
     lazy var timeNumber = NewDetailView(leftTitle: "Время", rightTitle: "А777ААА")
     lazy var carNumber = NewDetailView(leftTitle: "Номер авто", rightTitle: "А777ААА")
     lazy var numberPlace = NewDetailView(leftTitle: "Места", rightTitle: "08")
-    //lazy var code = DetailView(leftTitle: localized(text: "code"), rightTitle: "3344")
+    lazy var name = NewDetailView(leftTitle: "Имя", rightTitle: "Ойбой")
+    lazy var iin = NewDetailView(leftTitle: "ИИН", rightTitle: "910101230412")
+    lazy var sum = NewDetailView(leftTitle: "Сумма", rightTitle: "5000")
+    lazy var sosPhone = NewDetailButton(leftTitle: "Экстренный вызов", rightTitle: "+7707 190 9009")
+
     lazy var returnButton: DefaultButton = {
         let button = DefaultButton()
         button.setTitle(localized(text: "return"), for: .normal)
@@ -57,19 +61,19 @@ class TicketsTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview()
         }
         
-        ticketImage.addSubviews([returnButton,cityView,carNumber, timeNumber,numberPlace])
+        ticketImage.addSubviews([returnButton,cityView,carNumber, timeNumber,numberPlace, name, iin, sum, sosPhone])
 //        timeView.snp.makeConstraints { (make) in
 //            make.top.equalToSuperview().offset(12)
 //            make.left.equalToSuperview().offset(22)
 //            make.right.equalToSuperview().offset(-22)
 //        }
         cityView.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(45)
+            make.top.equalToSuperview().offset(26)
             make.left.equalToSuperview().offset(28)
             make.right.equalToSuperview().offset(-22)
         }
         carNumber.snp.makeConstraints { (make) in
-            make.top.equalTo(cityView.snp.bottom).offset(30)
+            make.top.equalTo(cityView.snp.bottom).offset(8)
             switch UIDevice.modelName {
             case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
                 make.left.equalToSuperview().offset(32)
@@ -80,7 +84,7 @@ class TicketsTableViewCell: UITableViewCell {
             make.right.equalToSuperview().offset(-22)
         }
         timeNumber.snp.makeConstraints { (make) in
-            make.top.equalTo(carNumber.snp.bottom).offset(18)
+            make.top.equalTo(carNumber.snp.bottom).offset(6)
             switch UIDevice.modelName {
             case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
                 make.left.equalToSuperview().offset(32)
@@ -90,7 +94,7 @@ class TicketsTableViewCell: UITableViewCell {
             make.right.equalToSuperview().offset(-22)
         }
         numberPlace.snp.makeConstraints { (make) in
-            make.top.equalTo(timeNumber.snp.bottom).offset(18)
+            make.top.equalTo(timeNumber.snp.bottom).offset(6)
             switch UIDevice.modelName {
             case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
                 make.left.equalToSuperview().offset(32)
@@ -99,11 +103,56 @@ class TicketsTableViewCell: UITableViewCell {
             }
             make.right.equalToSuperview().offset(-22)
         }
+        
+        name.snp.makeConstraints { (make) in
+            make.top.equalTo(numberPlace.snp.bottom).offset(6)
+            switch UIDevice.modelName {
+            case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
+                make.left.equalToSuperview().offset(32)
+            default: make.left.equalToSuperview().offset(28)
+                
+            }
+            make.right.equalToSuperview().offset(-22)
+        }
+        
+        iin.snp.makeConstraints { (make) in
+            make.top.equalTo(name.snp.bottom).offset(6)
+            switch UIDevice.modelName {
+            case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
+                make.left.equalToSuperview().offset(32)
+            default: make.left.equalToSuperview().offset(28)
+                
+            }
+            make.right.equalToSuperview().offset(-22)
+        }
+        
+        sum.snp.makeConstraints { (make) in
+            make.top.equalTo(iin.snp.bottom).offset(6)
+            switch UIDevice.modelName {
+            case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
+                make.left.equalToSuperview().offset(32)
+            default: make.left.equalToSuperview().offset(28)
+                
+            }
+            make.right.equalToSuperview().offset(-22)
+        }
+        
+        sosPhone.snp.makeConstraints { (make) in
+            make.top.equalTo(sum.snp.bottom).offset(6)
+            switch UIDevice.modelName {
+            case "iPhone 12", "iPhone 12 Pro", "iPhone 12 Pro Max", "iPhone 11", "iPhone 11 Pro Max", "iPhone XR", "iPhone XS Max", "iPhone 6 Plus", "iPhone 6s Plus", "iPhone 7 Plus", "iPhone 8 Plus":
+                make.left.equalToSuperview().offset(32)
+            default: make.left.equalToSuperview().offset(28)
+                
+            }
+            make.right.equalToSuperview().offset(-22)
+        }
+        
         returnButton.snp.makeConstraints { (make) in
-            make.top.equalTo(numberPlace.snp.bottom).offset(16)
+            make.top.equalTo(sosPhone.snp.bottom).offset(6)
             make.width.equalTo(120)
-            make.height.equalTo(48)
-            make.centerX.equalToSuperview()
+            make.height.equalTo(36)
+            make.centerX.equalToSuperview().offset(20)
         }
      
     }
@@ -147,32 +196,32 @@ class TicketsTableViewCell: UITableViewCell {
         cityView.toParkTitle.text = model.to_station
         carNumber.rightTitle.text = model.car_state_number
         
+        name.rightTitle.text = model.first_name ?? "Oiboi"
+        iin.rightTitle.text = model.iin ?? "910101120111"
+        sum.rightTitle.text = "\(model.price ?? 10000) тг"
+        
         //timeNumber.rightTitle.text = model.car_state_number
         carTypeCountPlaces = model.car_type_count_places!
         var places = ""
-        for number in model.number! {
-            
-           
-            placeNumber = number
+
+        placeNumber = model.number ?? 0
             if carTypeCountPlaces == 36  {
                 switch placeNumber {
                 case 1...16:
-                    places += "\(placeNumber)↓, "
+                    places += "\(placeNumber)↓"
                 case 17...32:
-                    places += "\(placeNumber - 16)↑, "
+                    places += "\(placeNumber - 16)↑"
                 case 33,34:
-                    places += "0↑, "
+                    places += "0↑"
                 case 35,36:
-                    places += "0↓, "
+                    places += "0↓"
                 default:
-                    places += "\(placeNumber), "
+                    places += "\(placeNumber)"
                 }
             } else {
-                places +=  "\(placeNumber), "
+                places +=  "\(placeNumber)"
             }
-       // price.rightTitle.text = "\(model.price) ₸"
-        }
-        numberPlace.rightTitle.text = places.substring(with: 0..<(places.count-2))
+        numberPlace.rightTitle.text = places
         returnButton.tag = model.id!
         
         if model.status == "in_process" {
@@ -184,5 +233,9 @@ class TicketsTableViewCell: UITableViewCell {
             ticketImage.image = UIImage(named: "paid")
         }
         
+    }
+    
+    @objc func makeCall(sender: PhoneButton) {
+        sender.phone.makeCall()
     }
 }
