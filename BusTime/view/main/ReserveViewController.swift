@@ -200,7 +200,8 @@ class ReserveViewController: ScrollViewController {
                                                                    NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarPosition.any, barMetrics: UIBarMetrics.default)
         navigationController?.navigationBar.isTranslucent = false
-        
+        places.removeAll()
+        price_place = 0
         getTravelShow()
     }
     @objc func checkRefresh() -> Void {
@@ -659,7 +660,7 @@ class ReserveViewController: ScrollViewController {
     
     // MARK: - Actions
     @objc func tapReserve() -> Void {
-        if placesStr.count > 0 && placesStr.count < 5{
+        if placesStr.count > 0 && placesStr.count < 5 {
             var allPlaces = ""
             for item in placesStr {
                 allPlaces += " \(item),"
@@ -753,7 +754,6 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
             cell.isHidden = true
         }
         let placeNum: Int = indexPath.item + 1 - skipCount
-        print("/// placeNum", placeNum)
         cell.placeNumBack = placeNum
         cell.placeNumber.text = "\(placeNum)"
         
@@ -833,73 +833,146 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
         }
         // free, take, in_process
-//        if arrayTravelShow != nil {
-//            for i in arrayTravelShow!.places! {
-//                if i.number == cell.placeNumBack {
-//                    if i.status == "free" {
-//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
-//                    } else if i.status == "take" {
-//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-12")
-//                    } else if i.status == "in_process" {
-//                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-15")
-//                    }
-//                }
-//            }
-//        }
-//        if places.count != 0 {
-//            for place in places {
-//                if place == cell.placeNumBack {
-//                    cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")
-//                }
-//            }
-//        }
+        if car_type_id == 2 {
+            if arrayTravelShow != nil {
+                for i in arrayTravelShow!.places! {
+                    if i.number == cell.placeNumBack {
+                        if i.status == "free" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                        } else if i.status == "take" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                        } else if i.status == "in_process" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "bed-15")
+                        }
+                    }
+                }
+            }
+            if places.count != 0 {
+                for place in places {
+                    if place == cell.placeNumBack {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-17")
+                    }
+                }
+            }
+        } else {
+            if arrayTravelShow != nil {
+                for i in arrayTravelShow!.places! {
+                    if i.number == cell.placeNumBack {
+                        if i.status == "free" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+                        } else if i.status == "take" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "Group-12")
+                        } else if i.status == "in_process" {
+                            cell.sitImageView.image = #imageLiteral(resourceName: "Group-15")
+                        }
+                    }
+                }
+            }
+            if places.count != 0 {
+                for place in places {
+                    if place == cell.placeNumBack {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")
+                    }
+                }
+            }
+        }
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! SitCollectionViewCell
         
-        if cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") && cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
-            cell.sitImageView.image == #imageLiteral(resourceName: "Group-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "Group-16"))
-            
-            if places.contains(cell.placeNumBack) {
-                for i in 0...(arrayTravelShow?.places!.count)!-1 {
-                    if cell.placeNumBack == arrayTravelShow?.places![i].number {
-                        price_place -= (arrayTravelShow?.places![i].price)!
-                        break
+        /// for buses with 36 seats
+        if car_type_id == 2 {
+            if cell.sitImageView.image != #imageLiteral(resourceName: "bed-15") && cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") {
+                cell.sitImageView.image == #imageLiteral(resourceName: "bed-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "bed-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "bed-16"))
+                
+                if places.contains(cell.placeNumBack) {
+                    for i in 0...(arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == arrayTravelShow?.places![i].number {
+                            price_place -= (arrayTravelShow?.places![i].price)!
+                            break
+                        }
                     }
-                }
-                let newArray = places.filter { $0 != cell.placeNumBack }
-                places.removeAll()
-                places = newArray
-                let newArrayStr = placesStr.filter { $0 != cell.placeNumber.text }
-                placesStr.removeAll()
-                placesStr = newArrayStr
-            } else if !places.contains(cell.placeNumBack) && places.count<4{
-                for i in 0...(arrayTravelShow?.places!.count)!-1 {
-                    if cell.placeNumBack == arrayTravelShow?.places![i].number {
-                        
-                        price_place += (arrayTravelShow?.places![i].price)!
-                        break
+                    let newArray = places.filter { $0 != cell.placeNumBack }
+                    places.removeAll()
+                    places = newArray
+                    let newArrayStr = placesStr.filter { $0 != cell.placeNumber.text }
+                    placesStr.removeAll()
+                    placesStr = newArrayStr
+                } else if !places.contains(cell.placeNumBack) && places.count<4{
+                    for i in 0...(arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == arrayTravelShow?.places![i].number {
+                            
+                            price_place += (arrayTravelShow?.places![i].price)!
+                            break
+                        }
                     }
+                    places.append(cell.placeNumBack)
+                    placesStr.append(cell.placeNumber.text ?? "")
                 }
-                places.append(cell.placeNumBack)
-                placesStr.append(cell.placeNumber.text ?? "")
-            }
-            else {
-                if cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") && cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
-                    cell.sitImageView.image == #imageLiteral(resourceName: "Group-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "Group-16"))
+                else {
+                    if cell.sitImageView.image != #imageLiteral(resourceName: "bed-15") && cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") {
+                        cell.sitImageView.image == #imageLiteral(resourceName: "bed-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "bed-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "bed-16"))
 
+                    }
+                    showErrorMessage(messageType: .none, "Вы не можете выбрать не больше 4 мест")
                 }
-                showErrorMessage(messageType: .none, "Вы не можете выбрать не больше 4 мест")
+            }
+        } else {
+            if cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") && cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
+                cell.sitImageView.image == #imageLiteral(resourceName: "Group-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "Group-16"))
+                
+                if places.contains(cell.placeNumBack) {
+                    for i in 0...(arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == arrayTravelShow?.places![i].number {
+                            price_place -= (arrayTravelShow?.places![i].price)!
+                            break
+                        }
+                    }
+                    let newArray = places.filter { $0 != cell.placeNumBack }
+                    places.removeAll()
+                    places = newArray
+                    let newArrayStr = placesStr.filter { $0 != cell.placeNumber.text }
+                    placesStr.removeAll()
+                    placesStr = newArrayStr
+                } else if !places.contains(cell.placeNumBack) && places.count<4{
+                    for i in 0...(arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == arrayTravelShow?.places![i].number {
+                            
+                            price_place += (arrayTravelShow?.places![i].price)!
+                            break
+                        }
+                    }
+                    places.append(cell.placeNumBack)
+                    placesStr.append(cell.placeNumber.text ?? "")
+                }
+                else {
+                    if cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") && cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
+                        cell.sitImageView.image == #imageLiteral(resourceName: "Group-16") ? (cell.sitImageView.image = #imageLiteral(resourceName: "Group-17")) : (cell.sitImageView.image = #imageLiteral(resourceName: "Group-16"))
+
+                    }
+                    showErrorMessage(messageType: .none, "Вы не можете выбрать не больше 4 мест")
+                }
             }
         }
         
-        if cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") {
-            let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0, placeString: placesStr)
-            vc.modalPresentationStyle = .overCurrentContext
-            vc.modalTransitionStyle = .crossDissolve
-            vc.delegate = self
-            present(vc, animated: true, completion: nil)
+        if cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") {
+            
+            let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0, placeString: placesStr, completion: {
+                cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                self.places.removeLast()
+                self.placesStr.removeLast()
+                for i in 0...(self.arrayTravelShow?.places!.count)!-1 {
+                    if cell.placeNumBack == self.arrayTravelShow?.places![i].number {
+                        self.price_place -= (self.arrayTravelShow?.places![i].price)!
+                        break
+                    }
+                }
+            })
+                vc.modalPresentationStyle = .overCurrentContext
+                vc.modalTransitionStyle = .crossDissolve
+                vc.delegate = self
+                present(vc, animated: true, completion: nil)
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath)

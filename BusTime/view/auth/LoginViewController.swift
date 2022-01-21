@@ -189,11 +189,19 @@ extension LoginViewController {
             }
             
             if result != nil {
-                self.showSuccessMessage()
-                result?.user?.role == "passenger" ? UserManager.shared.setTypeUser(withArray: "passenger") : UserManager.shared.setTypeUser(withArray: "driver")
-            UserManager.shared.createSession(withUser: result!)
-                result?.user?.role == "passenger" ? AppCenter.shared.startCustomer() : AppCenter.shared.startDriver()}
-          
+                UserManager.shared.createSession(withUser: result!)
+                if result?.user?.role == "passenger" {
+                    self.showSuccessMessage()
+                    UserManager.shared.setTypeUser(withArray: "passenger")
+                    AppCenter.shared.startCustomer()
+                } else if result?.user?.role == "driver" {
+                    self.showSuccessMessage()
+                    UserManager.shared.setTypeUser(withArray: "driver")
+                    AppCenter.shared.startDriver()
+                } else {
+                    self.showErrorMessage(messageType: .none, "Клиент с такими данными не существует")
+                }
+            }
         }
     }
 }

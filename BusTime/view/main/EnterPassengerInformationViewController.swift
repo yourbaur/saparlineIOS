@@ -14,6 +14,8 @@ protocol PassengerInformationDelegate: AnyObject {
 
 final class EnterPassengerInformationViewController: UIViewController {
     
+    private var onCancelClicked: (() -> Void)?
+    
     private var travelId: Int?
     private var placeString: [String]?
     weak var delegate: PassengerInformationDelegate?
@@ -123,9 +125,10 @@ final class EnterPassengerInformationViewController: UIViewController {
         return button
     }()
     
-    init(travelId: Int, placeString: [String]) {
+    init(travelId: Int, placeString: [String], completion: (() -> Void)?) {
         self.travelId = travelId
         self.placeString = placeString
+        self.onCancelClicked = completion
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -209,11 +212,17 @@ final class EnterPassengerInformationViewController: UIViewController {
     }
     
     @objc private func onCancelButtonTapped() {
-        dismiss(animated: true)
+        if let onCancelClicked = onCancelClicked {
+            onCancelClicked()
+            dismiss(animated: true)
+        }
     }
     
     @objc func tapMain() -> Void {
-        dismiss(animated: true, completion: nil)
+        if let onCancelClicked = onCancelClicked {
+            onCancelClicked()
+            dismiss(animated: true)
+        }
     }
     
     @objc private func onOKButtonTapped() {
