@@ -202,6 +202,8 @@ class ReserveViewController: ScrollViewController {
         navigationController?.navigationBar.isTranslucent = false
         places.removeAll()
         price_place = 0
+        placesStr.removeAll()
+        passengersInfos.removeAll()
         getTravelShow()
     }
     @objc func checkRefresh() -> Void {
@@ -453,12 +455,10 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalTo(80)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-55)
             }
-
             
         }
         else {
-            scrollView.addSubviews([topLabel, arrowUp, arrowUpLabel,
-                                    arrowDown, arrowDownLabel,
+            scrollView.addSubviews([topLabel,
                                     higherSeatsLabel, higherSeatsSwitch,
                                     lowerSeatsLabel, lowerSeatsSwitch,
                                     scheme53,exitView,collectionView,exitView2, betweenView,
@@ -468,25 +468,9 @@ class ReserveViewController: ScrollViewController {
                 make.top.equalToSuperview().offset(16)
                 make.left.equalToSuperview().offset(16)
             }
-            arrowUp.snp.makeConstraints { make in
-                make.top.equalTo(topLabel.snp.bottom).offset(8)
-                make.left.equalToSuperview().offset(16)
-            }
-            arrowUpLabel.snp.makeConstraints { make in
-                make.centerY.equalTo(arrowUp)
-                make.left.equalTo(arrowUp.snp.right).offset(8)
-            }
-            arrowDown.snp.makeConstraints { make in
-                make.left.equalTo(arrowUpLabel.snp.right).offset(8)
-                make.centerY.equalTo(arrowUp)
-            }
-            arrowDownLabel.snp.makeConstraints { make in
-                make.centerY.equalTo(arrowDown)
-                make.left.equalTo(arrowDown.snp.right).offset(8)
-            }
             
             higherSeatsLabel.snp.makeConstraints {
-                $0.top.equalTo(arrowUpLabel.snp.bottom).offset(12)
+                $0.top.equalTo(topLabel.snp.bottom).offset(16)
                 $0.left.equalTo(16)
             }
             
@@ -545,16 +529,30 @@ class ReserveViewController: ScrollViewController {
             }
         }
         
-        
-        bedPlaceView.snp.makeConstraints { (make) in
-            make.top.equalTo(safetyButton.snp.bottom).offset(16)
-            make.width.equalToSuperview()
-        }
-        price.snp.makeConstraints { (make) in
-            make.top.equalTo(bedPlaceView.snp.bottom).offset(40)
-            make.left.equalToSuperview().offset(16)
+        if car_type_id == 2 {
+            bedPlaceView.snp.makeConstraints { (make) in
+                make.top.equalTo(safetyButton.snp.bottom).offset(16)
+                make.width.equalToSuperview()
+            }
             
+            price.snp.makeConstraints { (make) in
+                make.top.equalTo(bedPlaceView.snp.bottom).offset(40)
+                make.left.equalToSuperview().offset(16)
+                
+            }
+        } else {
+            placeView.snp.makeConstraints { (make) in
+                make.top.equalTo(safetyButton.snp.bottom).offset(16)
+                make.width.equalToSuperview()
+            }
+            
+            price.snp.makeConstraints { (make) in
+                make.top.equalTo(placeView.snp.bottom).offset(40)
+                make.left.equalToSuperview().offset(16)
+                
+            }
         }
+        
         priceTitle.snp.makeConstraints { (make) in
             make.centerY.equalTo(price.snp.centerY)
             make.right.equalToSuperview().offset(-16)
@@ -959,7 +957,11 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
         if cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") {
             
             let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0, placeString: placesStr, completion: {
-                cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                if self.car_type_id == 2 {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                } else {
+                    cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+                }
                 self.places.removeLast()
                 self.placesStr.removeLast()
                 for i in 0...(self.arrayTravelShow?.places!.count)!-1 {

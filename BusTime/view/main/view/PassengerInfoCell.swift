@@ -57,7 +57,7 @@ final class PassengerInfoCell: UITableViewCell {
     
     private lazy var nameText: UILabel = {
         let label = UILabel()
-        label.text = "Имя:"
+        label.text = "ФИО:"
         label.textColor = UIColor(red: 0.51, green: 0.51, blue: 0.51, alpha: 1)
         label.font = UIFont.init(name: Font.mullerMedium, size: 18)
         return label
@@ -138,6 +138,7 @@ final class PassengerInfoCell: UITableViewCell {
         nameTextLabel.snp.makeConstraints {
             $0.left.equalTo(nameText.snp.right).offset(16)
             $0.centerY.equalTo(nameText.snp.centerY)
+            $0.right.equalTo(mainView.snp.right)
         }
         
         phoneText.snp.makeConstraints {

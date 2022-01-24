@@ -50,6 +50,7 @@ final class EnterPassengerInformationViewController: UIViewController {
         let textField = UITextField()
         textField.placeholder = "ИИН"
         textField.keyboardType = .numberPad
+        textField.delegate = self
         return textField
     }()
     
@@ -68,7 +69,7 @@ final class EnterPassengerInformationViewController: UIViewController {
     
     private lazy var nameTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Имя"
+        textField.placeholder = "ФИО"
         textField.keyboardType = .default
         return textField
     }()
@@ -232,7 +233,7 @@ final class EnterPassengerInformationViewController: UIViewController {
         }
         
         guard !(nameTextField.text?.isEmpty ?? false) else {
-            showMessage("Заполни Имя")
+            showMessage("Заполни ФИО")
             return
         }
         
@@ -240,24 +241,12 @@ final class EnterPassengerInformationViewController: UIViewController {
             showMessage("Заполни номер телефона")
             return
         }
-//        let phone = phoneTextField.text?.replacingOccurrences(of: " ", with: "")
-//        let phoneNumber = phone?.dropFirst() ?? ""
-//        let parameter: [String: Any] = ["user_id": UserManager.shared.getCurrentUser()!.user!.id,
-//                                        "travel_id": self.travelId ?? 0,
-//                                        "places" : [["first_name": nameTextField.text ?? "",
-//                                                       "phone": phoneNumber ,
-//                                                       "iin": iinTextField.text ?? "",
-//                                                       "place_number": 3]]]
-        // REQUEST
-//        ParseManager.shared.postRequest(url: api.passengerInformation, parameters: parameter) { (result: CheckRequest?, error) in
-//            print("/// res", result)
-//            print("/// err", error)
-            self.delegate?.didEnterInformation(info: PassengerInfoModel(seat: self.placeString,
-                                                                        iin: self.iinTextField.text ?? "",
-                                                                        name: self.nameTextField.text ?? "",
-                                                                        phone: self.phoneTextField.text ?? ""))
-            self.dismiss(animated: true)
-//        }
+        
+        self.delegate?.didEnterInformation(info: PassengerInfoModel(seat: self.placeString,
+                                                                    iin: self.iinTextField.text ?? "",
+                                                                    name: self.nameTextField.text ?? "",
+                                                                    phone: self.phoneTextField.text ?? ""))
+        self.dismiss(animated: true)
     }
 }
 
@@ -265,18 +254,25 @@ extension EnterPassengerInformationViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        let text = textField.text!
-        let spaceIndex = [2, 6, 10, 13]
+        switch textField {
+        case iinTextField:
+            return range.location < 12
+        case phoneTextField:
+            let text = textField.text!
+            let spaceIndex = [2, 6, 10, 13]
 
-        if text == "+7" && string == "" {
-            return false
+            if text == "+7" && string == "" {
+                return false
+            }
+            if text.count == 16 && string != "" {
+                return false
+            }
+            if spaceIndex.contains(textField.text!.count) && string != "" {
+                textField.text!.append(" ")
+            }
+            return true
+        default:
+            return true
         }
-        if text.count == 16 && string != "" {
-            return false
-        }
-        if spaceIndex.contains(textField.text!.count) && string != "" {
-            textField.text!.append(" ")
-        }
-        return true
     }
 }

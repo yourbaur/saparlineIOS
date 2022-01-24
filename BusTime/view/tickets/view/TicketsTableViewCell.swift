@@ -24,7 +24,7 @@ class TicketsTableViewCell: UITableViewCell {
     lazy var timeNumber = NewDetailView(leftTitle: "Время", rightTitle: "А777ААА")
     lazy var carNumber = NewDetailView(leftTitle: "Номер авто", rightTitle: "А777ААА")
     lazy var numberPlace = NewDetailView(leftTitle: "Места", rightTitle: "08")
-    lazy var name = NewDetailView(leftTitle: "Имя", rightTitle: "Ойбой")
+    lazy var name = NewDetailView(leftTitle: "ФИО", rightTitle: "Ойбой")
     lazy var iin = NewDetailView(leftTitle: "ИИН", rightTitle: "910101230412")
     lazy var sum = NewDetailView(leftTitle: "Сумма", rightTitle: "5000")
     lazy var sosPhone = NewDetailButton(leftTitle: "Экстренный вызов", rightTitle: "+7707 190 9009")
