@@ -305,30 +305,17 @@ extension TripDetailViewController {
         }
     }
     private func reserveRequest() -> Void {
-        showHUD()
-        // PREPARE parameters
-//        let parameter: [String: Any] = ["travel_id": travel_id!,
-//                                        "places": places]
-        // REQUEST
-//        ParseManager.shared.postRequest(url: api.placeReserve, parameters: parameter) { (result: CheckRequest?, error) in
-            self.dismissHUD()
-//            if let error = error {
-//                print(error)
-//                self.showErrorMessage(messageType: .none, "К сожелению выбранное место не доступно")
-//                return
-//            }
-            if self.typeId == 3 || self.typeId == 5 || self.typeId == 6 {
-                self.phoneNumber.makeCall()
-//                self.call(orderId: result?.orderId ?? 0)
-                
-            }
-            else{
+        dismissHUD()
+        if self.typeId == 3 || self.typeId == 5 || self.typeId == 6 {
+            self.phoneNumber.makeCall()
+        }
+        else{
             self.openWhatsApp()
-                AppCenter.shared.startCustomer()}
-//        }
+            AppCenter.shared.startCustomer()}
     }
     
     private func reservePassengersInfos() {
+        self.showHUD()
         guard let passengers = models else {
             return
         }

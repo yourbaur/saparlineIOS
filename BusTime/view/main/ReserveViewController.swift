@@ -953,28 +953,62 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                 }
             }
         }
-        
-        if cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") {
-            
-            let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0, placeString: placesStr, completion: {
-                if self.car_type_id == 2 {
-                    cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
-                } else {
-                    cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
-                }
-                self.places.removeLast()
-                self.placesStr.removeLast()
-                for i in 0...(self.arrayTravelShow?.places!.count)!-1 {
-                    if cell.placeNumBack == self.arrayTravelShow?.places![i].number {
-                        self.price_place -= (self.arrayTravelShow?.places![i].price)!
-                        break
+        if car_type_id == 2 {
+            if cell.sitImageView.image != #imageLiteral(resourceName: "bed-12") &&
+                cell.sitImageView.image != #imageLiteral(resourceName: "bed-15") {
+                
+                let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0,
+                                                                 placeString: placesStr,
+                                                                 completion: {
+                    if self.car_type_id == 2 {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    } else {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
                     }
-                }
-            })
+                    if !self.places.isEmpty && !self.placesStr.isEmpty {
+                        self.places.removeLast()
+                        self.placesStr.removeLast()
+                    }
+                    for i in 0...(self.arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == self.arrayTravelShow?.places![i].number {
+                            self.price_place -= (self.arrayTravelShow?.places![i].price)!
+                            break
+                        }
+                    }
+                })
                 vc.modalPresentationStyle = .overCurrentContext
                 vc.modalTransitionStyle = .crossDissolve
                 vc.delegate = self
                 present(vc, animated: true, completion: nil)
+            }
+        } else {
+            if cell.sitImageView.image != #imageLiteral(resourceName: "Group-12") &&
+                cell.sitImageView.image != #imageLiteral(resourceName: "Group-15") {
+                
+                let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0,
+                                                                 placeString: placesStr,
+                                                                 completion: {
+                    if self.car_type_id == 2 {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    } else {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "Group-16")
+                    }
+                    if !self.places.isEmpty && !self.placesStr.isEmpty {
+                        self.places.removeLast()
+                        self.placesStr.removeLast()
+                    }
+                    for i in 0...(self.arrayTravelShow?.places!.count)!-1 {
+                        if cell.placeNumBack == self.arrayTravelShow?.places![i].number {
+                            self.price_place -= (self.arrayTravelShow?.places![i].price)!
+                            break
+                        }
+                    }
+                })
+                vc.modalPresentationStyle = .overCurrentContext
+                vc.modalTransitionStyle = .crossDissolve
+                vc.delegate = self
+                present(vc, animated: true, completion: nil)
+            }
         }
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath)
