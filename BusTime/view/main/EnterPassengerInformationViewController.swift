@@ -179,6 +179,7 @@ final class EnterPassengerInformationViewController: UIViewController {
         
         iinTextField.snp.makeConstraints {
             $0.left.equalTo(iinImage.snp.right).offset(12)
+            $0.right.equalToSuperview().offset(-16)
             $0.centerY.equalTo(iinImage.snp.centerY)
         }
         
@@ -190,6 +191,7 @@ final class EnterPassengerInformationViewController: UIViewController {
         
         nameTextField.snp.makeConstraints {
             $0.left.equalTo(nameImage.snp.right).offset(12)
+            $0.right.equalToSuperview().offset(-16)
             $0.centerY.equalTo(nameImage.snp.centerY)
         }
         
@@ -201,6 +203,7 @@ final class EnterPassengerInformationViewController: UIViewController {
         
         phoneTextField.snp.makeConstraints {
             $0.left.equalTo(phoneImage.snp.right).offset(12)
+            $0.right.equalToSuperview().offset(-16)
             $0.centerY.equalTo(phoneImage.snp.centerY)
         }
         

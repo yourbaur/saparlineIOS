@@ -710,6 +710,22 @@ class ReserveViewController: ScrollViewController {
         }
     }
     
+    private func checkBookedPlaces(cell: SitCollectionViewCell) {
+        if self.arrayTravelShow != nil {
+            for i in self.arrayTravelShow!.places! {
+                if i.number == cell.placeNumBack {
+                    if i.status == "free" {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    } else if i.status == "take" {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
+                    } else if i.status == "in_process" {
+                        cell.sitImageView.image = #imageLiteral(resourceName: "bed-15")
+                    }
+                }
+            }
+        }
+    }
+    
     deinit {
         print("/// deinit")
     }
@@ -761,6 +777,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
                 } else {
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    self.checkBookedPlaces(cell: cell)
                 }
             }
 
@@ -769,6 +786,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
                 } else {
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    self.checkBookedPlaces(cell: cell)
                 }
             }
 
@@ -777,6 +795,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
                 } else {
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    self.checkBookedPlaces(cell: cell)
                 }
             }
 
@@ -786,6 +805,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-12")
                 } else {
                     cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
+                    self.checkBookedPlaces(cell: cell)
                 }
             }
         }
