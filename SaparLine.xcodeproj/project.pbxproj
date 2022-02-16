@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -148,6 +148,12 @@
 		8F3AA7B42793185F003B70C5 /* EnterPassengerInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */; };
 		8F3AA7B62793FC8A003B70C5 /* PassengerInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */; };
 		8F3AA7B8279411A3003B70C5 /* PassengerInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */; };
+		8F94BECE27B7795B00225122 /* TourMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BECD27B7795A00225122 /* TourMainViewController.swift */; };
+		8F94BED127B77C8D00225122 /* MapSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8F94BED027B77C8D00225122 /* MapSDK */; };
+		8F94BED427B7835500225122 /* TourSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BED327B7835500225122 /* TourSearchResultViewController.swift */; };
+		8F94BED727B7B08600225122 /* TourInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BED627B7B08600225122 /* TourInfoViewController.swift */; };
+		8F94BEDA27B7B64700225122 /* TourCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BED927B7B64700225122 /* TourCell.swift */; };
+		8F94BEDC27B7B85C00225122 /* TourImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BEDB27B7B85C00225122 /* TourImagesCell.swift */; };
 		B2C8ECE525FB7462005F4868 /* Review.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECE425FB7462005F4868 /* Review.swift */; };
 		B2C8ECE925FB8A1F005F4868 /* ComfortTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECE825FB8A1F005F4868 /* ComfortTableViewCell.swift */; };
 		B2C8ECEC25FB8E6A005F4868 /* Comfort.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2C8ECEB25FB8E6A005F4868 /* Comfort.swift */; };
@@ -319,6 +325,11 @@
 		8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPassengerInformationViewController.swift; sourceTree = "<group>"; };
 		8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInformationView.swift; sourceTree = "<group>"; };
 		8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInfoCell.swift; sourceTree = "<group>"; };
+		8F94BECD27B7795A00225122 /* TourMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourMainViewController.swift; sourceTree = "<group>"; };
+		8F94BED327B7835500225122 /* TourSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSearchResultViewController.swift; sourceTree = "<group>"; };
+		8F94BED627B7B08600225122 /* TourInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourInfoViewController.swift; sourceTree = "<group>"; };
+		8F94BED927B7B64700225122 /* TourCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourCell.swift; sourceTree = "<group>"; };
+		8F94BEDB27B7B85C00225122 /* TourImagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourImagesCell.swift; sourceTree = "<group>"; };
 		B2C8ECE425FB7462005F4868 /* Review.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Review.swift; sourceTree = "<group>"; };
 		B2C8ECE825FB8A1F005F4868 /* ComfortTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComfortTableViewCell.swift; sourceTree = "<group>"; };
 		B2C8ECEB25FB8E6A005F4868 /* Comfort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comfort.swift; sourceTree = "<group>"; };
@@ -347,6 +358,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F94BED127B77C8D00225122 /* MapSDK in Frameworks */,
 				0BFC9A9489AAFBE4BED52CEB /* Pods_SaparLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -783,6 +795,7 @@
 		886228DA24E7D90E009DDB73 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				8F94BED227B7833700225122 /* Tourism */,
 				886228DC24E7D946009DDB73 /* MainViewController.swift */,
 				DC15F0C5256524D700600BA9 /* ConvenienceSimpleViewController.swift */,
 				53550C8824E9836C00F68A9D /* SearchResultViewController.swift */,
@@ -920,6 +933,34 @@
 			path = view;
 			sourceTree = "<group>";
 		};
+		8F94BED227B7833700225122 /* Tourism */ = {
+			isa = PBXGroup;
+			children = (
+				8F94BED527B7B07400225122 /* TourInfo */,
+				8F94BECD27B7795A00225122 /* TourMainViewController.swift */,
+				8F94BED327B7835500225122 /* TourSearchResultViewController.swift */,
+			);
+			path = Tourism;
+			sourceTree = "<group>";
+		};
+		8F94BED527B7B07400225122 /* TourInfo */ = {
+			isa = PBXGroup;
+			children = (
+				8F94BED827B7B61400225122 /* Cells */,
+				8F94BED627B7B08600225122 /* TourInfoViewController.swift */,
+			);
+			path = TourInfo;
+			sourceTree = "<group>";
+		};
+		8F94BED827B7B61400225122 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				8F94BED927B7B64700225122 /* TourCell.swift */,
+				8F94BEDB27B7B85C00225122 /* TourImagesCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		952AF0EEE329925BE085F5F2 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1002,6 +1043,9 @@
 			dependencies = (
 			);
 			name = SaparLine;
+			packageProductDependencies = (
+				8F94BED027B77C8D00225122 /* MapSDK */,
+			);
 			productName = BusTime;
 			productReference = 530A230124E6D6BA005E639C /* SaparLine.app */;
 			productType = "com.apple.product-type.application";
@@ -1032,6 +1076,9 @@
 				"kk-KZ",
 			);
 			mainGroup = 530A22F824E6D6BA005E639C;
+			packageReferences = (
+				8F94BECF27B77C8D00225122 /* XCRemoteSwiftPackageReference "mobile-sdk-map-swift-package" */,
+			);
 			productRefGroup = 530A230224E6D6BA005E639C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1183,6 +1230,7 @@
 				880DE1FD2515ACD70006FF12 /* MapView.swift in Sources */,
 				88894A2E2515CF82004287F6 /* LoginViewModel.swift in Sources */,
 				B2FA6DA825EB6D0D00F88732 /* SortButtonView.swift in Sources */,
+				8F94BEDC27B7B85C00225122 /* TourImagesCell.swift in Sources */,
 				8838B0DE24F402D200C3F327 /* FilterCalendarViewController.swift in Sources */,
 				60D610512558B2800038486F /* PolicyViewController.swift in Sources */,
 				8469932225A1C4B900A8D408 /* AddTransportViewController.swift in Sources */,
@@ -1204,6 +1252,7 @@
 				B2FA6DB325EBAD1800F88732 /* ReviewViewController.swift in Sources */,
 				88FCA93624F67F670051793C /* CustomDriverView.swift in Sources */,
 				88832012253880EC00B4B38F /* LanguageCenter.swift in Sources */,
+				8F94BECE27B7795B00225122 /* TourMainViewController.swift in Sources */,
 				5342F60724ED6A780043C346 /* TripDetailViewController.swift in Sources */,
 				8838B0D824F3F4A600C3F327 /* CityGliderView.swift in Sources */,
 				8469933225A3D03700A8D408 /* CarsViewCell.swift in Sources */,
@@ -1229,6 +1278,7 @@
 				8874333425066AB800D5C131 /* ConvenienceViewController.swift in Sources */,
 				DC15F102256B784D00600BA9 /* PlacePriceModel.swift in Sources */,
 				5342F60D24ED772B0043C346 /* TripPlacesView.swift in Sources */,
+				8F94BED727B7B08600225122 /* TourInfoViewController.swift in Sources */,
 				88894A292515CF4B004287F6 /* ExitButtonView.swift in Sources */,
 				84F0CB6B25BC0D690071A241 /* KaspiViewController.swift in Sources */,
 				DC05A8D32574DAE300FEFEF8 /* PolicyModel.swift in Sources */,
@@ -1264,10 +1314,12 @@
 				530A234124E6DA2E005E639C /* User.swift in Sources */,
 				88687919251322AD009006AF /* TravelShowModel.swift in Sources */,
 				5342F60B24ED73210043C346 /* TripWayView.swift in Sources */,
+				8F94BED427B7835500225122 /* TourSearchResultViewController.swift in Sources */,
 				88894A252515CF28004287F6 /* ProfileDetailView.swift in Sources */,
 				881A6220253A9929008AFAF5 /* ShowInMapViewController.swift in Sources */,
 				880C2BBE24F7EF09001D96C8 /* ComingTripsTableViewCell.swift in Sources */,
 				B2C8ECE525FB7462005F4868 /* Review.swift in Sources */,
+				8F94BEDA27B7B64700225122 /* TourCell.swift in Sources */,
 				885ED3D42542EAB800DB3DDD /* FilterViewController.swift in Sources */,
 				88511F6524F9424D00B7CAB1 /* IntermediateStopsViewController.swift in Sources */,
 				530A230524E6D6BA005E639C /* AppDelegate.swift in Sources */,
@@ -1427,6 +1479,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BusTime/BusTime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5NXRNZS86K;
 				INFOPLIST_FILE = BusTime/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1434,7 +1487,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.7;
+				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = thousand.com.BusTime;
 				PRODUCT_NAME = SaparLine;
 				SWIFT_VERSION = 5.0;
@@ -1449,6 +1502,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BusTime/BusTime.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5NXRNZS86K;
 				INFOPLIST_FILE = BusTime/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
@@ -1456,7 +1510,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.7;
+				MARKETING_VERSION = 1.2.9;
 				PRODUCT_BUNDLE_IDENTIFIER = thousand.com.BusTime;
 				PRODUCT_NAME = SaparLine;
 				SWIFT_VERSION = 5.0;
@@ -1486,6 +1540,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8F94BECF27B77C8D00225122 /* XCRemoteSwiftPackageReference "mobile-sdk-map-swift-package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/2gis/mobile-sdk-map-swift-package";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8F94BED027B77C8D00225122 /* MapSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8F94BECF27B77C8D00225122 /* XCRemoteSwiftPackageReference "mobile-sdk-map-swift-package" */;
+			productName = MapSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 530A22F924E6D6BA005E639C /* Project object */;
 }

@@ -188,25 +188,28 @@ class MenuViewController: UIViewController {
 // MARK: - TableView delegate
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MenuTableViewCell.cellIdentifier(), for: indexPath) as! MenuTableViewCell
         
         switch indexPath.row {
-            case 0:
-                cell.title.text = localized(text: "main")
-                cell.iconImageView.image = #imageLiteral(resourceName: "home")
-            case 1:
-                cell.title.text = localized(text: "listOrders")
-                cell.iconImageView.image = #imageLiteral(resourceName: "Group-2")
-            case 2: cell.title.text = localized(text: "tickets")
-                cell.iconImageView.image = #imageLiteral(resourceName: "Group-3")
-            case 3:
-                cell.title.text = localized(text: "contacts")
-                cell.iconImageView.image = #imageLiteral(resourceName: "phone-call")
-                cell.iconImageView.image = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
-                cell.iconImageView.tintColor = .white
+        case 0:
+            cell.title.text = localized(text: "main")
+            cell.iconImageView.image = #imageLiteral(resourceName: "home")
+        case 1:
+            cell.title.text = "Туры"
+            cell.iconImageView.image = #imageLiteral(resourceName: "home")
+        case 2:
+            cell.title.text = localized(text: "listOrders")
+            cell.iconImageView.image = #imageLiteral(resourceName: "Group-2")
+        case 3: cell.title.text = localized(text: "tickets")
+            cell.iconImageView.image = #imageLiteral(resourceName: "Group-3")
+        case 4:
+            cell.title.text = localized(text: "contacts")
+            cell.iconImageView.image = #imageLiteral(resourceName: "phone-call")
+            cell.iconImageView.image = cell.iconImageView.image?.withRenderingMode(.alwaysTemplate)
+            cell.iconImageView.tintColor = .white
         default:
             break
         }
@@ -222,16 +225,21 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
                 (self.sideMenuController?.rootViewController as! UINavigationController).pushViewController(vc, animated: true)
             })
         case 1:
-            let vc = HistoryOrdersViewController()
+            let vc = TourMainViewController()
             sideMenuController?.hideLeftView(animated: true, completionHandler: {
                 (self.sideMenuController?.rootViewController as! UINavigationController).pushViewController(vc, animated: true)
             })
         case 2:
-            let vc = TicketsViewController()
+            let vc = HistoryOrdersViewController()
             sideMenuController?.hideLeftView(animated: true, completionHandler: {
                 (self.sideMenuController?.rootViewController as! UINavigationController).pushViewController(vc, animated: true)
             })
         case 3:
+            let vc = TicketsViewController()
+            sideMenuController?.hideLeftView(animated: true, completionHandler: {
+                (self.sideMenuController?.rootViewController as! UINavigationController).pushViewController(vc, animated: true)
+            })
+        case 4:
             let phoneNumber =  "77071909009"
             let appURL = URL(string: "https://wa.me/\(phoneNumber)")!
             if UIApplication.shared.canOpenURL(appURL) {
