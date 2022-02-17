@@ -161,6 +161,10 @@ extension ComingTripsViewController {
             busyCount = 7 - freeCount
         case 7:
             busyCount = 62 - freeCount
+        case 8:
+            busyCount = 28 - freeCount
+        case 9:
+            busyCount = 29 - freeCount
         default:
             busyCount = 36 - freeCount
         }

@@ -353,6 +353,31 @@ class SearchResultTableViewCell: UITableViewCell {
                 stackPlaces.addArrangedSubview(place)
             }
         }
+        else if model.car.car_type_id == 8 {
+            for _ in 0..<(28-model.count_free_places!){
+                let place = UIImageView()
+                place.image = UIImage(named: "freePlace")
+                stackPlaces.addArrangedSubview(place)
+            }
+            for _ in 0..<(model.count_free_places!){
+                let place = UIImageView()
+                place.image = UIImage(named: "bluePlace")
+                stackPlaces.addArrangedSubview(place)
+            }
+        }
+        
+        else if model.car.car_type_id == 9 {
+            for _ in 0..<(29-model.count_free_places!){
+                let place = UIImageView()
+                place.image = UIImage(named: "freePlace")
+                stackPlaces.addArrangedSubview(place)
+            }
+            for _ in 0..<(model.count_free_places!){
+                let place = UIImageView()
+                place.image = UIImage(named: "bluePlace")
+                stackPlaces.addArrangedSubview(place)
+            }
+        }
         else {
             stackPlaces.isHidden = true
             freeTitle.text = "Свободные места"

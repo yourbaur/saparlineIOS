@@ -384,11 +384,7 @@ class MainDriverViewController: BaseDriverViewController {
             make.height.equalTo(40)
             make.width.equalTo(50)
             switch carTypeId {
-            case 3:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 5:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 6:
+            case 3, 5, 6:
                 make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
             default:
                 make.top.equalTo(seatDescLabel.snp.bottom)
@@ -400,11 +396,7 @@ class MainDriverViewController: BaseDriverViewController {
             make.height.equalTo(40)
             make.width.equalTo(100)
             switch carTypeId {
-            case 3:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 5:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 6:
+            case 3, 5, 6:
                 make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
             default:
                 make.top.equalTo(seatDescLabel.snp.bottom)
@@ -416,11 +408,7 @@ class MainDriverViewController: BaseDriverViewController {
             make.height.equalTo(40)
             make.width.equalTo(doneButton)
             switch carTypeId {
-            case 3:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 5:
-                make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
-            case 6:
+            case 3, 5, 6:
                 make.top.equalTo(seatDescLabel.snp.bottom).offset(8)
             default:
                 make.top.equalTo(seatDescLabel.snp.bottom)
