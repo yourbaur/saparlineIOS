@@ -9,13 +9,22 @@
 import UIKit
 
 class ReserveViewController: ScrollViewController {
-
+    
+    var removedNumbersInCollectionView4 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24]
+    var removedNumbersInCollectionView6 = [0,1,2,3,5,6,7,8,9,10,11,12,13,15,17,18,19,20,21,22,23,24,25]
+    var removedNumbersInCollectionView7 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24,25]
+    var removedNumbersInCollectionView28 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,36,37,38,39,40,41,42,47,48,53,54,55,56,57,58,59]
+    var removedNumbersInCollectionView29 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,37,38,39,40,41,42,47,48,53,54,55,56,57,58,59]
+    var removedNumbersInCollectionView30 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,40,41,42,47,48,53,54,55,56,57,58,59]
+    var removedNumbersInCollectionView31 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,41,42,47,48,53,54,55,56,57,58,59]
+    var removedNumbersInCollectionView32 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,42,47,48,53,54,55,56,57,58,59]
+    var removedNumbersInCollectionView33 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,42,43,44,45,46,48,53,54,59]
+    var removedNumbersInCollectionView34 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,42,43,44,45,48,53,54,59]
+    var removedNumbersInCollectionView35 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,44,45,46,48,53,54,59]
     var removedNumbersInCollectionView36 = [2,3,4,5,8,9,10,11,14,15,20,21,26,27,32,33,38,39,44,45,48,53,54,59]
     var removedNumbersInCollectionView50 = [2,3,8,9,10,11,14,15,20,21,26,27,32,33,38,39,44,45,50,51,52,53,56,57,62,63,68,69,74,75]
     var removedNumbersInCollectionView62 = [2,3,8,9,14,15,16,17,20,21,26,27,32,33,38,39,44,45,50,51,56,57,58,59,62,63,64,65,68,69,74,75,80,81,86,87, 92,93,98,99]
-    var removedNumbersInCollectionView6 = [0,1,2,3,5,6,7,8,9,10,11,12,13,15,17,18,19,20,21,22,23,24,25]
-    var removedNumbersInCollectionView7 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24,25]
-    var removedNumbersInCollectionView4 = [0,1,2,3,5,6,7,8,9,10,11,12,13,17,18,19,20,21,22,23,24]
+    
     private var showHigherSeatsIn36 = [0, 1, 13, 17, 19, 23, 25, 29, 31, 35, 37, 41, 43, 47, 50, 52, 56, 58]
     private var showLowerSeatsIn36 = [6, 7, 12, 16, 18, 22, 24, 28, 30, 34, 36, 40, 42, 46, 49, 51, 55, 57]
 
@@ -46,8 +55,6 @@ class ReserveViewController: ScrollViewController {
     lazy var exitView = ExitView()
     lazy var exitView2 = ExitView()
     
-    
-    
     lazy var betweenView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)
@@ -57,36 +64,8 @@ class ReserveViewController: ScrollViewController {
     lazy var layout = UICollectionViewFlowLayout()
     lazy var topLabel: UILabel = {
         let label = UILabel()
-        label.text = "Cпальный район"
+        label.text = "Cпальный салон"
         label.textColor = maincolor.blue
-        label.font = UIFont.init(name: Font.mullerRegular, size: 16)
-        return label
-    }()
-    lazy var arrowUp: UILabel = {
-        let label = UILabel()
-        label.textColor = .red
-        label.text = "↑"
-        label.font = UIFont.init(name: Font.mullerMedium, size: 24)
-        return label
-    }()
-    lazy var arrowUpLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.text = "- Вверх"
-        label.font = UIFont.init(name: Font.mullerRegular, size: 16)
-        return label
-    }()
-    lazy var arrowDown: UILabel = {
-        let label = UILabel()
-        label.textColor = .red
-        label.text = "↓"
-        label.font = UIFont.init(name: Font.mullerMedium, size: 24)
-        return label
-    }()
-    lazy var arrowDownLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .black
-        label.text = "- Вниз"
         label.font = UIFont.init(name: Font.mullerRegular, size: 16)
         return label
     }()
@@ -345,7 +324,6 @@ class ReserveViewController: ScrollViewController {
                     make.right.equalToSuperview().offset(-44)
                 default: make.left.equalToSuperview().offset(16)
                          make.right.equalToSuperview().offset(-16)
-                    
                 }
             }
             exitView2.snp.makeConstraints { (make) in
@@ -361,10 +339,7 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalTo(50)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-170)
             }
-        
-    }
-   
-        
+        }
         else if car_type_id == 6 {
             descriptionView.isHidden = true
             scrollView.addSubviews([scheme,rulImage, exitView,collectionView,exitView2,betweenView,
@@ -395,7 +370,6 @@ class ReserveViewController: ScrollViewController {
                     make.right.equalToSuperview().offset(-44)
                 default: make.left.equalToSuperview().offset(16)
                          make.right.equalToSuperview().offset(-16)
-                    
                 }
             }
             exitView2.snp.makeConstraints { (make) in
@@ -411,22 +385,16 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalTo(50)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-170)
             }
-
-            
         }
         else if car_type_id == 7 {
             scrollView.addSubviews([scheme53,exitView,collectionView,exitView2,betweenView,
                                     priceTitle, price, placeView,safetyButton, policyButton, reviewsButton])
-        
             scheme53.snp.makeConstraints { (make) in
                 make.centerX.equalTo(collectionView)
                 make.width.equalToSuperview()
                 make.centerY.equalTo(collectionView).offset(-55)
                 make.height.equalTo(collectionView).multipliedBy(1.2)
-            
             }
-            
-            
             descriptionView.isHidden = true
             exitView.snp.makeConstraints { (make) in
                 make.top.equalToSuperview().offset(245)
@@ -441,7 +409,6 @@ class ReserveViewController: ScrollViewController {
                     make.right.equalToSuperview().offset(-44)
                 default: make.left.equalToSuperview().offset(16)
                          make.right.equalToSuperview().offset(-16)
-                    
                 }
             }
             exitView2.snp.makeConstraints { (make) in
@@ -455,7 +422,6 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalTo(80)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-55)
             }
-            
         }
         else {
             scrollView.addSubviews([topLabel,
@@ -494,10 +460,7 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalToSuperview()
                 make.centerY.equalTo(collectionView).offset(-50)
                 make.height.equalTo(collectionView).multipliedBy(1.1)
-            
             }
-            
-            
             descriptionView.isHidden = true
             exitView.snp.makeConstraints { (make) in
                 make.top.equalToSuperview().offset(230)
@@ -527,6 +490,7 @@ class ReserveViewController: ScrollViewController {
                 make.width.equalTo(80)
                 make.bottom.equalTo(collectionView.snp.bottom).offset(-250)
             }
+            betweenView.isHidden = true
         }
         
         if car_type_id == 2 {
@@ -538,7 +502,6 @@ class ReserveViewController: ScrollViewController {
             price.snp.makeConstraints { (make) in
                 make.top.equalTo(bedPlaceView.snp.bottom).offset(40)
                 make.left.equalToSuperview().offset(16)
-                
             }
         } else {
             placeView.snp.makeConstraints { (make) in
@@ -549,15 +512,12 @@ class ReserveViewController: ScrollViewController {
             price.snp.makeConstraints { (make) in
                 make.top.equalTo(placeView.snp.bottom).offset(40)
                 make.left.equalToSuperview().offset(16)
-                
             }
         }
-        
         priceTitle.snp.makeConstraints { (make) in
             make.centerY.equalTo(price.snp.centerY)
             make.right.equalToSuperview().offset(-16)
             make.bottom.equalToSuperview().offset(-120)
-          
         }
         
         safetyButton.snp.makeConstraints { (make) in
@@ -565,23 +525,19 @@ class ReserveViewController: ScrollViewController {
             make.left.equalToSuperview().offset(16)
             make.height.equalTo(32)
             make.width.equalTo(100)
-            
         }
         reviewsButton.snp.makeConstraints { (make) in
             make.top.equalTo(collectionView.snp.bottom).offset(40)
             make.left.equalTo(safetyButton.snp.right).offset(8)
             make.height.equalTo(32)
             make.width.equalTo(100)
-            
         }
         policyButton.snp.makeConstraints { (make) in
             make.top.equalTo(collectionView.snp.bottom).offset(40)
             make.left.equalTo(reviewsButton.snp.right).offset(8)
             make.height.equalTo(32)
-        
             make.width.equalTo(100)
         }
-        
     }
     
     // MARK: - Initialization
@@ -597,22 +553,14 @@ class ReserveViewController: ScrollViewController {
     
     // MARK: - Simple functions
     func shouldBeRemoved(index: Int) -> Bool {
-        if placesCount == 36 {
-            if removedNumbersInCollectionView36.contains(index) {
+        if placesCount == 4 {
+            if removedNumbersInCollectionView4.contains(index) {
                 skipCount += 1
                 return true
             } else {
                 return false
             }
-        } else if placesCount == 53{
-            if removedNumbersInCollectionView50.contains(index) {
-                skipCount += 1
-                return true
-            } else {
-                return false
-            }
-        }
-        else if placesCount == 7 {
+        } else if placesCount == 7 {
             if removedNumbersInCollectionView7.contains(index) {
                 skipCount += 1
                 return true
@@ -620,9 +568,71 @@ class ReserveViewController: ScrollViewController {
                 return false
             }
 
-        }
-        else if placesCount == 4 {
-            if removedNumbersInCollectionView4.contains(index) {
+        } else if placesCount == 28 {
+            if removedNumbersInCollectionView28.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 29 {
+            if removedNumbersInCollectionView29.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 30 {
+            if removedNumbersInCollectionView30.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 31 {
+            if removedNumbersInCollectionView31.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 32 {
+            if removedNumbersInCollectionView32.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 33 {
+            if removedNumbersInCollectionView33.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 34 {
+            if removedNumbersInCollectionView34.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 35 {
+            if removedNumbersInCollectionView35.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 36 {
+            if removedNumbersInCollectionView36.contains(index) {
+                skipCount += 1
+                return true
+            } else {
+                return false
+            }
+        } else if placesCount == 53 {
+            if removedNumbersInCollectionView50.contains(index) {
                 skipCount += 1
                 return true
             } else {
@@ -636,8 +646,7 @@ class ReserveViewController: ScrollViewController {
             } else {
                 return false
             }
-        }
-        else {
+        }  else {
             if removedNumbersInCollectionView6.contains(index) {
                 skipCount += 1
                 return true
@@ -725,30 +734,38 @@ class ReserveViewController: ScrollViewController {
             }
         }
     }
-    
-    deinit {
-        print("/// deinit")
-    }
 }
 
 // MARK: - CollectionView delegate
 extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if placesCount == 36 {
+        if placesCount == 4 {
+            return placesCount + removedNumbersInCollectionView4.count
+        } else if placesCount == 6 {
+            return placesCount + removedNumbersInCollectionView6.count
+        } else if placesCount == 7 {
+            return placesCount + removedNumbersInCollectionView7.count
+        } else if placesCount == 28 {
+            return placesCount + removedNumbersInCollectionView28.count
+        } else if placesCount == 29 {
+            return placesCount + removedNumbersInCollectionView29.count
+        } else if placesCount == 30 {
+            return placesCount + removedNumbersInCollectionView30.count
+        } else if placesCount == 31 {
+            return placesCount + removedNumbersInCollectionView31.count
+        } else if placesCount == 32 {
+            return placesCount + removedNumbersInCollectionView32.count
+        } else if placesCount == 33 {
+            return placesCount + removedNumbersInCollectionView33.count
+        } else if placesCount == 34 {
+            return placesCount + removedNumbersInCollectionView34.count
+        } else if placesCount == 35 {
+            return placesCount + removedNumbersInCollectionView35.count
+        } else if placesCount == 36 {
             return placesCount + removedNumbersInCollectionView36.count
         } else if placesCount == 53 {
             return placesCount + removedNumbersInCollectionView50.count
-        }
-        else if placesCount == 6 {
-           return placesCount + removedNumbersInCollectionView6.count
-       }
-        else if placesCount == 7 {
-            return placesCount + removedNumbersInCollectionView7.count
-        }
-        else if placesCount == 4 {
-            return placesCount + removedNumbersInCollectionView4.count
-        }
-        else if placesCount == 62 {
+        } else if placesCount == 62 {
             return placesCount + removedNumbersInCollectionView62.count
         }
         else {

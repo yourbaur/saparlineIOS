@@ -247,35 +247,43 @@ extension RegisterDriverViewController: UIPickerViewDataSource, UIPickerViewDele
     }
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         switch carTypesArray[row].id {
-            case 1:
-                return localized(text: "bus50")
-            case 2:
-                return localized(text: "bus36")
-            case 5:
-                return localized(text: "bus4")
-            case 6:
-                return localized(text: "bus7")
-            case 7:
-                return localized(text: "bus62")
-            default:
-                return localized(text: "bus6")
+        case 1:
+            return localized(text: "bus50")
+        case 2:
+            return localized(text: "bus36")
+        case 5:
+            return localized(text: "bus4")
+        case 6:
+            return localized(text: "bus7")
+        case 7:
+            return localized(text: "bus62")
+        case 8:
+            return localized(text: "bus28")
+        case 9:
+            return localized(text: "bus29")
+        default:
+            return localized(text: "bus6")
         }
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         var typeText = ""
         switch carTypesArray[row].id {
-            case 1:
-                typeText = localized(text: "bus50")
-            case 2:
-                typeText = localized(text: "bus36")
-            case 5:
-                typeText = localized(text: "bus4")
-            case 6:
-                typeText = localized(text: "bus7")
-            case 7:
-                typeText = localized(text: "bus62")
-            default:
-                typeText = localized(text: "bus6")
+        case 1:
+            typeText = localized(text: "bus50")
+        case 2:
+            typeText = localized(text: "bus36")
+        case 5:
+            typeText = localized(text: "bus4")
+        case 6:
+            typeText = localized(text: "bus7")
+        case 7:
+            typeText = localized(text: "bus62")
+        case 8:
+            typeText = localized(text: "bus28")
+        case 9:
+            typeText = localized(text: "bus29")
+        default:
+            typeText = localized(text: "bus6")
         }
         self.typeTransportField.text = typeText
         self.carTypeId = carTypesArray[row].id

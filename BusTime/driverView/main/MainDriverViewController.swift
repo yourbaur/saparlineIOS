@@ -758,6 +758,10 @@ extension MainDriverViewController {
                         self.allPlaces = 4
                     case 7:
                         self.allPlaces = 62
+                    case 8:
+                        self.allPlaces = 28
+                    case 9:
+                        self.allPlaces = 29
                     default:
                         self.allPlaces = 6
                     }
