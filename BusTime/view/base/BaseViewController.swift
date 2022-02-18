@@ -20,10 +20,10 @@ class BaseViewController: ScrollViewController {
         view.backgroundColor = .white
         if #available(iOS 13.0, *) {
             let appearance = UINavigationBarAppearance()
-            appearance.configureWithOpaqueBackground()
             appearance.backgroundColor = maincolor.blue
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
             self.navigationController?.navigationBar.standardAppearance = appearance
-            self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
+            self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
         } else {
             // Fallback on earlier versions
         }

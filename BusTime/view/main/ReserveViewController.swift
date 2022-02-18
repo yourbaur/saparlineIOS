@@ -20,6 +20,7 @@ class ReserveViewController: ScrollViewController {
     private var showLowerSeatsIn36 = [6, 7, 12, 16, 18, 22, 24, 28, 30, 34, 36, 40, 42, 46, 49, 51, 55, 57]
 
     private var passengersInfos = [PassengerInfoModel]()
+    private var tourAgent: Bool?
     var skipCount = 0
     var placesCount = 0
     var kaspiNumber = ""
@@ -586,13 +587,14 @@ class ReserveViewController: ScrollViewController {
     
     // MARK: - Initialization
     required init?(coder: NSCoder) {fatalError("")}
-    init(travel_id: Int, price: Int, car_type_id: Int, carId:Int, comfortList:[Comfort]) {
+    init(travel_id: Int, price: Int, car_type_id: Int, carId:Int, comfortList:[Comfort], tourAgent: Bool?) {
         super.init(nibName: nil, bundle: nil)
         self.travel_id = travel_id
 //        self.price_place = price
         self.car_type_id = car_type_id
         self.comfortList = comfortList
         self.carId = carId
+        self.tourAgent = tourAgent
     }
     
     // MARK: - Simple functions
@@ -979,6 +981,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0,
                                                                  placeString: placesStr,
+                                                                 tourAgent: self.tourAgent ?? false,
                                                                  completion: {
                     if self.car_type_id == 2 {
                         cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")
@@ -1007,6 +1010,7 @@ extension ReserveViewController: UICollectionViewDelegate, UICollectionViewDataS
                 
                 let vc = EnterPassengerInformationViewController(travelId: travel_id ?? 0,
                                                                  placeString: placesStr,
+                                                                 tourAgent: self.tourAgent ?? false,
                                                                  completion: {
                     if self.car_type_id == 2 {
                         cell.sitImageView.image = #imageLiteral(resourceName: "bed-16")

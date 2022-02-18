@@ -227,7 +227,8 @@ class SearchResultViewController: UIViewController {
                                        price: (arrayTravelList?.data![index].max_price)!,
                                        car_type_id: (arrayTravelList?.data![index].car.car_type_id)!,
                                        carId:(arrayTravelList?.data![index].car.id )!,
-                                       comfortList: comfortList)
+                                       comfortList: comfortList,
+                                       tourAgent: false)
         navigationController?.pushViewController(vc, animated: true)
     }
     

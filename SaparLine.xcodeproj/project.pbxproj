@@ -148,6 +148,9 @@
 		8F3AA7B42793185F003B70C5 /* EnterPassengerInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */; };
 		8F3AA7B62793FC8A003B70C5 /* PassengerInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */; };
 		8F3AA7B8279411A3003B70C5 /* PassengerInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */; };
+		8F70AD9A27BE709C00C6DF80 /* TourSwitcherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F70AD9927BE709C00C6DF80 /* TourSwitcherView.swift */; };
+		8F70AD9C27BEADCD00C6DF80 /* TourInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F70AD9B27BEADCC00C6DF80 /* TourInfoModel.swift */; };
+		8F70ADA127BF9ABA00C6DF80 /* TourMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F70ADA027BF9ABA00C6DF80 /* TourMapCell.swift */; };
 		8F94BECE27B7795B00225122 /* TourMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BECD27B7795A00225122 /* TourMainViewController.swift */; };
 		8F94BED127B77C8D00225122 /* MapSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8F94BED027B77C8D00225122 /* MapSDK */; };
 		8F94BED427B7835500225122 /* TourSearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F94BED327B7835500225122 /* TourSearchResultViewController.swift */; };
@@ -325,6 +328,9 @@
 		8F3AA7B32793185E003B70C5 /* EnterPassengerInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterPassengerInformationViewController.swift; sourceTree = "<group>"; };
 		8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInformationView.swift; sourceTree = "<group>"; };
 		8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassengerInfoCell.swift; sourceTree = "<group>"; };
+		8F70AD9927BE709C00C6DF80 /* TourSwitcherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSwitcherView.swift; sourceTree = "<group>"; };
+		8F70AD9B27BEADCC00C6DF80 /* TourInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourInfoModel.swift; sourceTree = "<group>"; };
+		8F70ADA027BF9ABA00C6DF80 /* TourMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourMapCell.swift; sourceTree = "<group>"; };
 		8F94BECD27B7795A00225122 /* TourMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourMainViewController.swift; sourceTree = "<group>"; };
 		8F94BED327B7835500225122 /* TourSearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourSearchResultViewController.swift; sourceTree = "<group>"; };
 		8F94BED627B7B08600225122 /* TourInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourInfoViewController.swift; sourceTree = "<group>"; };
@@ -837,6 +843,8 @@
 				B2FA6DAE25EB701B00F88732 /* SortTableViewCell.swift */,
 				8F3AA7B52793FC8A003B70C5 /* PassengerInformationView.swift */,
 				8F3AA7B7279411A3003B70C5 /* PassengerInfoCell.swift */,
+				8F70AD9927BE709C00C6DF80 /* TourSwitcherView.swift */,
+				8F70ADA027BF9ABA00C6DF80 /* TourMapCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -855,6 +863,7 @@
 			isa = PBXGroup;
 			children = (
 				889DE6622510AD0D0035CDEB /* TravelListModel.swift */,
+				8F70AD9B27BEADCC00C6DF80 /* TourInfoModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1202,6 +1211,7 @@
 				8838B0D624F3F33500C3F327 /* WayGliderView.swift in Sources */,
 				883E0AC324EC32EA0065A32A /* ExitView.swift in Sources */,
 				8838B0C824F3F0FF00C3F327 /* NetworkManager.swift in Sources */,
+				8F70AD9A27BE709C00C6DF80 /* TourSwitcherView.swift in Sources */,
 				885ED3D12542E37F00DB3DDD /* ComingTripsModel.swift in Sources */,
 				885CD007251232270077095A /* HistoryOrdersDriverTableViewCell.swift in Sources */,
 				8838B0CE24F3F13E00C3F327 /* Response.swift in Sources */,
@@ -1240,6 +1250,7 @@
 				B2F1D7D4270A5852006FBEFA /* NoInternetController.swift in Sources */,
 				885CD0042512312D0077095A /* OrderHistoriesModel.swift in Sources */,
 				841C650025B535FF00D1009D /* Coordinator.swift in Sources */,
+				8F70ADA127BF9ABA00C6DF80 /* TourMapCell.swift in Sources */,
 				53550C9324E98B4C00F68A9D /* CityView.swift in Sources */,
 				530A232024E6D94D005E639C /* ParseManager.swift in Sources */,
 				8838B0DC24F3FB4200C3F327 /* DetailGliderView.swift in Sources */,
@@ -1276,6 +1287,7 @@
 				883E0AC924EC38CD0065A32A /* PlaceView.swift in Sources */,
 				880C2BB324F7E880001D96C8 /* MyPassengersViewController.swift in Sources */,
 				8874333425066AB800D5C131 /* ConvenienceViewController.swift in Sources */,
+				8F70AD9C27BEADCD00C6DF80 /* TourInfoModel.swift in Sources */,
 				DC15F102256B784D00600BA9 /* PlacePriceModel.swift in Sources */,
 				5342F60D24ED772B0043C346 /* TripPlacesView.swift in Sources */,
 				8F94BED727B7B08600225122 /* TourInfoViewController.swift in Sources */,

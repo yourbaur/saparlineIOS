@@ -15,6 +15,7 @@ protocol PassengerInformationDelegate: AnyObject {
 final class EnterPassengerInformationViewController: UIViewController {
     
     private var onCancelClicked: (() -> Void)?
+    private var tourAgent: Bool?
     
     private var travelId: Int?
     private var placeString: [String]?
@@ -96,6 +97,28 @@ final class EnterPassengerInformationViewController: UIViewController {
         return textField
     }()
     
+    private lazy var agentImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.cornerRadius = 5
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        if #available(iOS 13.0, *) {
+            imageView.image = UIImage(named: "zondicons_travel-case")?.withTintColor(maincolor.blue)
+        } else {
+            // Fallback on earlier versions
+        }
+        return imageView
+    }()
+    
+    private lazy var agentPhoneTextField: UITextField = {
+        let textField = UITextField()
+        textField.placeholder = "Номер агента"
+        textField.keyboardType = .phonePad
+        textField.delegate = self
+        textField.text = "+7"
+        return textField
+    }()
+    
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -126,10 +149,11 @@ final class EnterPassengerInformationViewController: UIViewController {
         return button
     }()
     
-    init(travelId: Int, placeString: [String], completion: (() -> Void)?) {
+    init(travelId: Int, placeString: [String], tourAgent: Bool, completion: (() -> Void)?) {
         self.travelId = travelId
         self.placeString = placeString
         self.onCancelClicked = completion
+        self.tourAgent = tourAgent
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -153,6 +177,13 @@ final class EnterPassengerInformationViewController: UIViewController {
             backgroundView.addSubview($0)
         }
         
+        if tourAgent == true {
+            [agentImage, agentPhoneTextField].forEach { backgroundView.addSubview($0)}
+        } else {
+            agentImage.isHidden = true
+            agentPhoneTextField.isHidden = true
+        }
+        
         [cancelButton, okButton].forEach {
             buttonsStackView.addArrangedSubview($0)
         }
@@ -165,7 +196,11 @@ final class EnterPassengerInformationViewController: UIViewController {
         }
         
         backgroundView.snp.makeConstraints {
-            $0.height.equalTo(230)
+            if tourAgent == true {
+                $0.height.equalTo(270)
+            } else {
+                $0.height.equalTo(230)
+            }
             $0.left.equalToSuperview().offset(16)
             $0.right.equalToSuperview().offset(-16)
             $0.centerY.equalToSuperview()
@@ -207,8 +242,26 @@ final class EnterPassengerInformationViewController: UIViewController {
             $0.centerY.equalTo(phoneImage.snp.centerY)
         }
         
+        if tourAgent == true {
+            agentImage.snp.makeConstraints {
+                $0.height.width.equalTo(20)
+                $0.top.equalTo(phoneImage.snp.bottom).offset(24)
+                $0.left.equalTo(backgroundView.snp.left).offset(16)
+            }
+            
+            agentPhoneTextField.snp.makeConstraints {
+                $0.left.equalTo(agentImage.snp.right).offset(12)
+                $0.right.equalToSuperview().offset(-16)
+                $0.centerY.equalTo(agentImage.snp.centerY)
+            }
+        }
+        
         buttonsStackView.snp.makeConstraints {
-            $0.top.equalTo(phoneTextField.snp.bottom).offset(24)
+            if tourAgent == true {
+                $0.top.equalTo(agentPhoneTextField.snp.bottom).offset(24)
+            } else {
+                $0.top.equalTo(phoneTextField.snp.bottom).offset(24)
+            }
             $0.height.equalTo(48)
             $0.left.equalToSuperview().offset(16)
             $0.right.equalToSuperview().offset(-16)

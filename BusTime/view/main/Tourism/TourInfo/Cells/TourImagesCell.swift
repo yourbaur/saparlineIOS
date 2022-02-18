@@ -13,15 +13,17 @@ class TourImagesCell: UICollectionViewCell {
 
     static let identifier = "TourImagesCell"
 
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//        [label, subLabel].forEach { $0.text = nil }
-//    }
+    var model: URL? {
+        didSet {
+            tourImage.kf.setImage(with: model)
+        }
+    }
     
-    lazy var tourImage: UIImageView = {
+    private lazy var tourImage: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "test")
         view.layer.cornerRadius = 10
+        view.clipsToBounds = true
         return view
     }()
 
@@ -42,12 +44,8 @@ class TourImagesCell: UICollectionViewCell {
 
     private func setupConstraints() {
         tourImage.snp.makeConstraints { make in
-            make.top.equalTo(4)
             make.height.equalTo(UIScreen.main.bounds.size.height / 4.5)
-//            make.leading.trailing.equalToSuperview()
-            make.left.equalTo(8)
-            make.right.equalTo(-8)
-            make.bottom.equalTo(-4)
+            make.top.bottom.left.right.equalToSuperview()
         }
     }
 }

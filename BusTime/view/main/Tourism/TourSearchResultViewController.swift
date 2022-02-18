@@ -16,18 +16,10 @@ final class TourSearchResultViewController: UIViewController {
     var from_city_id: Int?
     var to_city_id: Int?
     var date: String?
+    private var tourInfo: [TourInfoModel]?
     
     // MARK: - Variables
-    let gliderViewController: GliderViewController = GliderViewController.init()
-//    var glider: RDGliderViewController?
-    lazy var shadowView: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        button.isHidden = true
-        button.addTarget(self, action: #selector(gliderClose), for: .touchUpInside)
-        return button
-    }()
-    private var switcher = SwitcherView(firstTitle: "Инфо о туре",
+    private var switcher = TourSwitcherView(firstTitle: "Инфо о туре",
                                         secondTitle: "Транспорт",
                                         thirdTitle: "Карта")
     
@@ -43,75 +35,62 @@ final class TourSearchResultViewController: UIViewController {
         return label
     }()
     lazy var fromto = WayCityView()
-    lazy var tableView: UITableView = {
+    
+    lazy var busesTableView: UITableView = {
         let table = UITableView()
         table.register(SearchResultTableViewCell.self, forCellReuseIdentifier: SearchResultTableViewCell.cellIdentifier())
-//        table.register(TourCell.self, forCellReuseIdentifier: TourCell.identifier)
         table.delegate = self
         table.dataSource = self
-        
         table.separatorStyle = .none
         return table
     }()
+    //TourMapCell
     
-    private lazy var mainTableView: UITableView = {
+    private lazy var imagesInfoTableView: UITableView = {
         let table = UITableView()
         table.register(TourCell.self, forCellReuseIdentifier: TourCell.identifier)
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "description")
         table.delegate = self
         table.dataSource = self
-        
         table.separatorStyle = .none
         return table
     }()
     
-    lazy var emptyLabel: UILabel = {
-        let label = UILabel()
-        label.text = localized(text: "emptyList")
-        label.textColor = .gray
-        label.backgroundColor = .clear
-        label.font = UIFont.init(name: Font.mullerRegular, size: 16)
-        return label
+    private lazy var mapTableView: UITableView = {
+        let table = UITableView()
+        table.register(TourMapCell.self, forCellReuseIdentifier: TourMapCell.identifier)
+        table.delegate = self
+        table.dataSource = self
+        table.separatorStyle = .none
+        return table
     }()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupSwitcher()
         setupViews()
-        initGliderView()
+        getTours()
     }
     
     func setupSwitcher() {
         switcher.firstAction = {
-            self.mainTableView.isHidden = false
-            self.tableView.isHidden = true
-//            if self.isBus == 0 || self.isBus == 2{
-//                self.isBus = 1
-//                self.travelList()
-//            }
-//            let vc = EnterPassengerInformationViewController(travelId: 0, placeString: [""], completion: nil)
-//            self.navigationController?.pushViewController(vc, animated: true)
+            self.imagesInfoTableView.isHidden = false
+            self.busesTableView.isHidden = true
+            self.mapTableView.isHidden = true
         }
         
         switcher.secondAction = {
-            self.mainTableView.isHidden = true
-            self.tableView.isHidden = false
-//            if self.isBus == 1 || self.isBus == 2{
-//                self.isBus = 0
-//                self.travelList()
-//            }
-//            let vc = ReviewViewController(carId: 0)
-//            vc.modalPresentationStyle = .fullScreen
-//            self.present(vc, animated: false, completion: nil)
+            self.imagesInfoTableView.isHidden = true
+            self.busesTableView.isHidden = false
+            self.mapTableView.isHidden = true
+            self.travelList()
         }
         
         switcher.thirdAction = {
-            if self.isBus == 0 || self.isBus == 1{
-                self.isBus = 2
-                self.travelList()
-            }
-
+            self.imagesInfoTableView.isHidden = true
+            self.busesTableView.isHidden = true
+            self.mapTableView.isHidden = false
         }
         
         switcher.firstButtonSelected()
@@ -129,12 +108,12 @@ final class TourSearchResultViewController: UIViewController {
         navigationController?.navigationBar.barTintColor = UIColor(red: 0.094, green: 0.157, blue: 0.282, alpha: 1)
         view.backgroundColor = .white
         
-        travelList()
+//        travelList()
     }
     
     // MARK: - SetupViews
     func setupViews() -> Void {
-        view.addSubviews([worldImage, switcher, tableView, mainTableView, emptyLabel])
+        view.addSubviews([worldImage, switcher, busesTableView, imagesInfoTableView, mapTableView])
         worldImage.snp.makeConstraints { (make) in
             make.top.width.equalToSuperview()
             make.height.equalTo(200)
@@ -143,19 +122,19 @@ final class TourSearchResultViewController: UIViewController {
             make.top.equalTo(worldImage.snp.bottom).offset(5)
             make.width.equalToSuperview()
         }
-        tableView.snp.makeConstraints { (make) in
+        busesTableView.snp.makeConstraints { (make) in
             make.top.equalTo(switcher.snp.bottom).offset(5)
             make.width.bottom.equalToSuperview()
         }
         
-        mainTableView.snp.makeConstraints { (make) in
+        imagesInfoTableView.snp.makeConstraints { (make) in
             make.top.equalTo(switcher.snp.bottom).offset(5)
             make.width.bottom.equalToSuperview()
         }
         
-        emptyLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(tableView)
-            make.centerX.equalTo(tableView)
+        mapTableView.snp.makeConstraints { (make) in
+            make.top.equalTo(switcher.snp.bottom).offset(5)
+            make.width.bottom.equalToSuperview()
         }
         
         worldImage.addSubviews([fromto,personCountTitle])
@@ -168,12 +147,6 @@ final class TourSearchResultViewController: UIViewController {
             make.left.equalToSuperview().offset(16)
             make.height.equalTo(24)
         }
-
-        //shadow
-        view.addSubview(shadowView)
-        shadowView.snp.makeConstraints { (make) in
-            make.edges.equalToSuperview()
-        }
     }
     
     // MARK: - Init
@@ -185,34 +158,6 @@ final class TourSearchResultViewController: UIViewController {
         self.to_city_id = to_city_id
         self.date = date
     }
-    
-    // MARK: - Actions
-    private func initGliderView() {
-//        self.glider = RDGliderViewController.init(on: self, withContent: gliderViewController, type: .bottomToTop, andOffsets: [0.0, 0.8])
-//        self.glider?.delegate = self
-    }
-    
-    func showGlider(id: Int) -> Void {
-//        gliderViewController.configure(travel_id: id)
-//        glider?.expand()
-    }
-    
-    @objc func gliderClose() -> Void {
-        shadowView.isHidden = true
-//        glider?.close()
-    }
-    
-    @objc func tapFilter() -> Void {
-        navigationController?.pushViewController(FilterCalendarViewController(), animated: true)
-    }
-    
-    @objc
-    func tapReview(){
-        let vc = ReviewViewController(carId: 0)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
     
     @objc func tapReserv(index:Int) -> Void {
         var comfortList: [Comfort] = []
@@ -231,7 +176,8 @@ final class TourSearchResultViewController: UIViewController {
                                        price: (arrayTravelList?.data![index].max_price)!,
                                        car_type_id: (arrayTravelList?.data![index].car.car_type_id)!,
                                        carId:(arrayTravelList?.data![index].car.id )!,
-                                       comfortList: comfortList)
+                                       comfortList: comfortList,
+                                       tourAgent: true)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -242,72 +188,90 @@ final class TourSearchResultViewController: UIViewController {
         vc.modalTransitionStyle = .crossDissolve
         present(vc, animated: true, completion: nil)
     }
-    
-    private func isEmptyData() {
-        if arrayTravelList?.data?.count == 0 {
-            emptyLabel.isHidden = false
-        } else {
-            emptyLabel.isHidden = true
-        }
-    }
 }
 
-//  MARK: - Glider delegate
-extension TourSearchResultViewController: RDGliderViewControllerDelegate {
-    func glideViewController(_ glideViewController: RDGliderViewController, hasChangedOffsetOfContent offset: CGPoint) {
-        offset != CGPoint(x: 0, y: 0) ? (shadowView.isHidden = false) : (shadowView.isHidden = true)
-    }
-}
-
-// MARK: - TableView delegate
+// MARK: - TableView delegate/datasource
 extension TourSearchResultViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return arrayTravelList?.data?.count ?? 0
-        return 1
+        switch tableView {
+        case imagesInfoTableView:
+            return 2
+        case busesTableView:
+            return arrayTravelList?.count ?? 0
+        case mapTableView:
+            return 1
+        default:
+            return 1
+        }
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == mainTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TourCell.identifier, for: indexPath) as! TourCell
-    //        cell.sliderBtn.tag = indexPath.row
-    //        let model = (arrayTravelList?.data![indexPath.row])!
-    //        cell.sliderBtn.photo1 = model.car.image!
-    //        cell.sliderBtn.photo2 = model.car.image1 ?? ""
-    //        cell.sliderBtn.photo3 = model.car.image2 ?? ""
-    //        cell.sliderBtn.avatar = model.car.avatar ?? ""
-    //        //cell.reservButton.addTarget(self, action: #selector(tapReserv(button:)), for: .touchUpInside)
-    //
-    //        cell.configure(model: (arrayTravelList?.data![indexPath.row])!)
-    //        cell.sliderBtn.addTarget(self, action: #selector(tapSlider(button:)), for: .touchUpInside)
-    //
-            return cell
-        } else if tableView == self.tableView {
+        switch tableView {
+        case imagesInfoTableView:
+            switch indexPath.row {
+            case 0:
+                let cell = tableView.dequeueReusableCell(withIdentifier: TourCell.identifier, for: indexPath) as! TourCell
+                cell.model = tourInfo
+                return cell
+            case 1:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "description", for: indexPath)
+                cell.textLabel?.text = tourInfo?.first?.description
+                cell.textLabel?.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+                cell.textLabel?.numberOfLines = 0
+                cell.selectionStyle = .none
+                return cell
+            default:
+                return UITableViewCell()
+            }
+        case busesTableView:
             let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultTableViewCell.cellIdentifier(),
                                                      for: indexPath) as! SearchResultTableViewCell
             cell.sliderBtn.tag = indexPath.row
-//            let model = (arrayTravelList?.data![indexPath.row])!
-//            cell.sliderBtn.photo1 = model.car.image!
-//            cell.sliderBtn.photo2 = model.car.image1 ?? ""
-//            cell.sliderBtn.photo3 = model.car.image2 ?? ""
-//            cell.sliderBtn.avatar = model.car.avatar ?? ""
-            //cell.reservButton.addTarget(self, action: #selector(tapReserv(button:)), for: .touchUpInside)
+            let model = (arrayTravelList?.data![indexPath.row])!
+            cell.sliderBtn.photo1 = model.car.image!
+            cell.sliderBtn.photo2 = model.car.image1 ?? ""
+            cell.sliderBtn.photo3 = model.car.image2 ?? ""
+            cell.sliderBtn.avatar = model.car.avatar ?? ""
+//            cell.reservButton.addTarget(self, action: #selector(tapReserv(button:)), for: .touchUpInside)
     
-//            cell.configure(model: (arrayTravelList?.data![indexPath.row])!)
-//            cell.sliderBtn.addTarget(self, action: #selector(tapSlider(button:)), for: .touchUpInside)
+            cell.configure(model: (arrayTravelList?.data![indexPath.row])!)
+            cell.sliderBtn.addTarget(self, action: #selector(tapSlider(button:)), for: .touchUpInside)
     
             return cell
+            
+        case mapTableView:
+            let cell = tableView.dequeueReusableCell(withIdentifier: TourMapCell.identifier, for: indexPath) as! TourMapCell
+            return cell
+        default:
+            return UITableViewCell()
         }
-        return UITableViewCell()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tapReserv(index: indexPath.row)
+        switch tableView {
+        case imagesInfoTableView, mapTableView:
+            tableView.deselectRow(at: indexPath, animated: true)
+        case busesTableView:
+            busesTableView.deselectRow(at: indexPath, animated: true)
+            tapReserv(index: indexPath.row)
+        default:
+            return
+        }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if tableView == mainTableView {
-            return UIScreen.main.bounds.size.height / 4.5
-        } else if tableView == self.tableView {
+        switch tableView {
+        case imagesInfoTableView:
+            if indexPath.row == 0 {
+                return UIScreen.main.bounds.size.height / 4.5
+            } else {
+                return 250
+            }
+        case busesTableView:
             return 200
+        case mapTableView:
+            return 300
+        default:
+            return 100
         }
-        return 100
     }
 }
 
@@ -320,60 +284,36 @@ extension TourSearchResultViewController {
                          "from_city_id": from_city_id!,
                          "to_city_id": to_city_id!,
                          "date": date!,
-                         "isBus":self.isBus
+                         "isBus": 1
         ] as Parameters
-        ParseManager.shared.getRequest(url: api.travelListPassenger, parameters: parameter) { (result: TravelListModel?, error) in
+        ParseManager.shared.getRequest(url: api.travelListPassenger,
+                                       parameters: parameter) { (result: TravelListModel?, error) in
             self.dismissHUD()
-            if self.isBus == 0 {
-                self.switcher.secondButton.setTitle("Минивэн (\((result?.count ?? 0)))", for: .normal)
-            }
-            else if self.isBus == 1{
-                self.switcher.firstButton.setTitle("Автобус (\((result?.count ?? 0)))", for: .normal)
-            }
-            else{
-                self.switcher.thirdButton.setTitle("Такси (\((result?.count)!))", for: .normal)
-
-            }
+            
+            self.switcher.secondButton.setTitle("Транспорт (\((result?.count ?? 0)))", for: .normal)
             
             if let error = error {
                 self.showErrorMessage(messageType: .error, error)
                 return
             }
-            self.arrayTravelList = result!
-//            self.isEmptyData()
-            self.tableView.reloadData()
+            self.arrayTravelList = result
+            self.busesTableView.reloadData()
         }
     }
     
-    private func travelSortList() -> Void {
-        showHUD()
-        let parameter = ["page": 1,
-                         "limit": 10,
-                         "from_city_id": from_city_id!,
-                         "to_city_id": to_city_id!,
-                         "date": date!,
-                         "isBus":self.isBus,
-                         "filter":"rating"
-        ] as Parameters
-        ParseManager.shared.getRequest(url: api.travelListPassenger, parameters: parameter) { (result: TravelListModel?, error) in
+    private func getTours() {
+        ParseManager.shared.getRequest(url: api.getTours) { (result: [TourInfoModel]?, error) in
             self.dismissHUD()
-            if self.isBus == 0 {
-                self.switcher.secondButton.setTitle("Минивэн (\((result?.count ?? 0)))", for: .normal)
+           
+            self.tourInfo = result
+              
+            DispatchQueue.main.async {
+                self.imagesInfoTableView.reloadData()
             }
-            else if self.isBus == 1{
-                self.switcher.firstButton.setTitle("Автобус (\((result?.count ?? 0)))", for: .normal)
-            }
-            else{
-                self.switcher.thirdButton.setTitle("Такси (\((result?.count)!))", for: .normal)
-            }
-            
             if let error = error {
-                self.showErrorMessage(messageType: .error, error)
+                self.showErrorMessage(messageType: .error, error.description)
                 return
             }
-            self.arrayTravelList = result!
-//            self.isEmptyData()
-            self.tableView.reloadData()
         }
     }
 }

@@ -36,6 +36,10 @@ enum api {
     static let reserveEdit         = "travel/place/edit"
     static let settings            = "setting"
     
+    // MARK: - Tours
+    static let getTours = "tours/get-tours"
+    static let getInfoAboutTour = "tours/{tour_id}/get-information-about-tour"
+    
     //reviews
     static let addReview           = "toFeedback"
     static let listReviews         = "feedback/list"
